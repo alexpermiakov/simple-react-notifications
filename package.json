@@ -1,6 +1,6 @@
 {
   "name": "simple-react-notifier",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "build/index.js",
   "module": "build/index.es.js",
@@ -17,6 +17,7 @@
     "roots": [
       "./src"
     ],
+    "collectCoverage": true,
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
