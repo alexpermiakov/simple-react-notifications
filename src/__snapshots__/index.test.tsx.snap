@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Hello /> should render correctly with a text prop 1`] = `
+<div
+  style={
+    Object {
+      "color": "red",
+    }
+  }
+>
+  Hello 
+  Alex
+</div>
+`;
