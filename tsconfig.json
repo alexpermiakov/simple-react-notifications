@@ -5,7 +5,7 @@
     "lib": ["dom", "es2017"],
     "jsx": "react",
     "sourceMap": true,
-    "outDir": "dist",
+    "outDir": "build",
     "strict": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
@@ -13,7 +13,8 @@
     "noUnusedLocals": true,
     "typeRoots": ["node_modules/@types"],
     "types": ["node", "jest"],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "declaration": true
   },
   "include": ["./src/**/*"],
   "exclude": ["./node_modules/**/*", "./cache", "./build"],
