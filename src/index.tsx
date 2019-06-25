@@ -1,7 +1,17 @@
 import React from "react";
+import ReactDOM from "react-dom";
+import NotificationContainer, {
+  Props
+} from "./components/NotificationContainer/index";
 
-type Props = { text: string };
+const show = (cfg: Props) => {
+  let modalRoot = document.querySelector("body > #modal-root");
+  if (!modalRoot) {
+    modalRoot = document.createElement("div");
+    document.body.appendChild(modalRoot);
+  }
 
-const Hello = ({ text }: Props) => <div>Hello {text}</div>;
+  ReactDOM.createPortal(<NotificationContainer {...cfg} />, modalRoot);
+};
 
-export default Hello;
+export default { show };

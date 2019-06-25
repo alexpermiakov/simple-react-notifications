@@ -1,6 +1,6 @@
 {
   "name": "simple-react-notifier",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "build/index.js",
   "module": "build/index.es.js",
@@ -46,6 +46,7 @@
     "react-scripts-ts": "^3.1.0",
     "react-test-renderer": "^16.8.6",
     "rollup": "^1.16.2",
+    "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-node-resolve": "^5.1.0",
     "rollup-plugin-peer-deps-external": "^2.2.0",
