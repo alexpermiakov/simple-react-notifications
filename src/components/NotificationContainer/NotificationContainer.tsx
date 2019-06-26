@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Config } from "../../index";
 import NotificationItem from "../NotificationItem/NotificationItem";
 import "./styles.css";
 
