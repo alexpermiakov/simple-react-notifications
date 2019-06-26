@@ -3,7 +3,7 @@ import commonjs from "rollup-plugin-commonjs";
 import external from "rollup-plugin-peer-deps-external";
 import resolve from "rollup-plugin-node-resolve";
 import bundleSize from "rollup-plugin-bundle-size";
-
+import postcss from "rollup-plugin-postcss";
 import pkg from "./package.json";
 
 export default {
@@ -42,6 +42,9 @@ export default {
         ],
         "node_modules/react-dom/index.js": ["render"]
       }
+    }),
+    postcss({
+      extract: true
     }),
     bundleSize()
   ]

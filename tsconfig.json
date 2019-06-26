@@ -3,7 +3,7 @@
     "target": "es2017",
     "lib": ["dom", "es2017"],
     "jsx": "react",
-    "outDir": "build",
+    "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
     "noImplicitAny": true,

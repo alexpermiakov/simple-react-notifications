@@ -1,17 +1,19 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "react-dom";
 import NotificationContainer, {
   Props
-} from "./components/NotificationContainer/index";
+} from "./components/NotificationContainer/NotificationContainer";
+
+const id = "simple-react-notifier";
 
 const show = (cfg: Props) => {
-  let modalRoot = document.querySelector("body > #modal-root");
+  let modalRoot = document.getElementById(id);
   if (!modalRoot) {
     modalRoot = document.createElement("div");
+    modalRoot.id = id;
     document.body.appendChild(modalRoot);
   }
-
-  ReactDOM.createPortal(<NotificationContainer {...cfg} />, modalRoot);
+  render(<NotificationContainer {...cfg} />, modalRoot);
 };
 
-export default { show };
+export default show;
