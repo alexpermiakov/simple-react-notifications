@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import uuid from "uuid/v1";
+import React, { useState, useEffect, useRef } from "react";
 import NotificationItem from "../NotificationItem/NotificationItem";
 import "./styles.css";
 
@@ -12,19 +11,30 @@ export type Props = {
 };
 
 const NotificationContainer = (props: Props) => {
-  const [items, setItems] = useState([] as any);
+  const [, setItems] = useState([] as any);
+  // we have to use ref here instead of items from the useState above,
+  // otherwise in setTimeout we will access the same items from
+  // the clojure, but we need the latest results
+  const latestItems = useRef([] as any);
 
   useEffect(() => {
-    const itemId = uuid();
-    setItems([...items, <NotificationItem key={itemId} {...props} />]);
+    const itemId = latestItems.current.length;
+    latestItems.current = [
+      <NotificationItem key={itemId} {...props} />,
+      ...latestItems.current
+    ];
+
+    setItems(latestItems.current);
 
     setTimeout(() => {
-      console.log(items, itemId);
-      setItems(items.filter((it: any) => it.key != itemId));
+      latestItems.current = latestItems.current.filter(
+        (it: any) => it.key != itemId
+      );
+      setItems(latestItems.current);
     }, props.duration || 3000);
   }, [props]);
 
-  return <>{...items}</>;
+  return <>{...latestItems.current}</>;
 };
 
 export default NotificationContainer;
