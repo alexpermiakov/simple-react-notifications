@@ -2,17 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import NotificationItem from "../NotificationItem/NotificationItem";
 import "./styles.css";
 
-export type Props = {
-  message: string;
-  position: "top-left" | "top-right" | "bottom-left" | "bottom-right";
-  type: "alert" | "info" | "warning";
-  duration?: number;
-};
-
 const filter = (ar: JSX.Element[], id: number) =>
   ar.filter((it: JSX.Element) => it.key != id);
 
-const NotificationContainer = (props: Props) => {
+const NotificationContainer = (props: Config) => {
   const [, setItems] = useState([] as JSX.Element[]);
   // we have to use ref here instead of items from the useState above,
   // otherwise in setTimeout we will access the same items from

@@ -17,5 +17,6 @@
     "suppressImplicitAnyIndexErrors": true,
     "declaration": true
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "files": ["./globals.d.ts"]
 }

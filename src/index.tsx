@@ -1,12 +1,10 @@
 import React from "react";
 import { render } from "react-dom";
-import NotificationContainer, {
-  Props
-} from "./components/NotificationContainer/NotificationContainer";
+import NotificationContainer from "./components/NotificationContainer/NotificationContainer";
 
 const id = "simple-react-notifier";
 
-const show = (cfg: Props) => {
+const show = (cfg: Config) => {
   let modalRoot = document.getElementById(id);
   if (!modalRoot) {
     modalRoot = document.createElement("div");
