@@ -11,6 +11,7 @@ const show = (cfg: Props) => {
   if (!modalRoot) {
     modalRoot = document.createElement("div");
     modalRoot.id = id;
+    modalRoot.className = cfg.position || "top-right";
     document.body.appendChild(modalRoot);
   }
   render(<NotificationContainer {...cfg} />, modalRoot);

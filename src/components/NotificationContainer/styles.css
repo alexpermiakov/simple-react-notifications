@@ -3,4 +3,25 @@
   top: 0;
   color: white;
   right: 0;
+  z-index: 9999;
+  padding: 4px;
+  width: 320px;
+  box-sizing: border-box;
+}
+
+#simple-react-notifier.top-left {
+  left: 0;
+  right: auto;
+}
+
+#simple-react-notifier.bottom-left {
+  top: auto;
+  right: auto;
+  left: 0;
+  bottom: 0;
+}
+
+#simple-react-notifier.bottom-right {
+  top: auto;
+  bottom: 0;
 }

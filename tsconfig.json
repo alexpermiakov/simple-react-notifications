@@ -14,6 +14,7 @@
     "typeRoots": ["node_modules/@types"],
     "types": ["node", "jest"],
     "allowSyntheticDefaultImports": true,
+    "suppressImplicitAnyIndexErrors": true,
     "declaration": true
   },
   "include": ["./src/**/*"]
