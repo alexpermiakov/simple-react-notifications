@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NotificationItem /> should render correctly with all props 1`] = `
+<div
+  className="notification-item warning"
+  style={
+    Object {
+      "animationDelay": "5000ms",
+      "animationDuration": "300ms",
+    }
+  }
+>
+  <label>
+    ⚠
+  </label>
+  <span
+    role="warning"
+  >
+    Hello
+  </span>
+  <button
+    aria-label="close"
+    onClick={[Function]}
+    type="button"
+  >
+    ✖
+  </button>
+</div>
+`;
+
+exports[`<NotificationItem /> should render with all default props 1`] = `
+<div
+  className="notification-item info"
+  style={
+    Object {
+      "animationDelay": "0ms",
+      "animationDuration": "0ms",
+    }
+  }
+>
+  <label>
+    ℹ
+  </label>
+  <span
+    role="info"
+  >
+    Hello
+  </span>
+  <button
+    aria-label="close"
+    onClick={[Function]}
+    type="button"
+  >
+    ✖
+  </button>
+</div>
+`;

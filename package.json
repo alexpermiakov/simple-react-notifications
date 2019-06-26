@@ -1,6 +1,6 @@
 {
   "name": "simple-react-notifier",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -17,6 +17,9 @@
     "roots": [
       "./src"
     ],
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
     "collectCoverage": true,
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
@@ -40,6 +43,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "enzyme-to-json": "^3.3.5",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

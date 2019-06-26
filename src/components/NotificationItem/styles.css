@@ -1,3 +1,25 @@
+@keyframes slideToRight {
+  20% {
+    opacity: 1;
+    transform: translate3d(-20px, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(2000px, 0, 0);
+  }
+}
+
+@keyframes slideToLeft {
+  20% {
+    opacity: 1;
+    transform: translate3d(20px, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(-2000px, 0, 0);
+  }
+}
+
 .notification-item {
   background: white;
   color: gray;
@@ -10,6 +32,20 @@
   box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1), 0 2px 15px 0 rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
+  animation-timing-function: ease-in;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+}
+
+.top-left .notification-item,
+.bottom-left .notification-item {
+  animation-name: slideToLeft;
+}
+
+.top-right .notification-item,
+.bottom-right .notification-item {
+  animation-name: slideToRight;
 }
 
 .notification-item.info {
@@ -22,7 +58,7 @@
   color: white;
 }
 
-.notification-item.warn {
+.notification-item.warning {
   background: #f1c40f;
   color: white;
 }
