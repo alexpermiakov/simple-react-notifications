@@ -9,18 +9,17 @@ export type Props = {
   duration?: number;
 };
 
-const filter = (ar: React.ReactNodeArray, id: number) =>
-  ar.filter((it: any) => it.key != id);
+const filter = (ar: JSX.Element[], id: number) =>
+  ar.filter((it: JSX.Element) => it.key != id);
 
 const NotificationContainer = (props: Props) => {
-  const [, setItems] = useState([] as any);
+  const [, setItems] = useState([] as JSX.Element[]);
   // we have to use ref here instead of items from the useState above,
   // otherwise in setTimeout we will access the same items from
   // the clojure, but we need the latest results
-  const latestItems = useRef([] as any);
+  const latestItems = useRef([] as JSX.Element[]);
 
   const onItemClose = (id: number) => {
-    console.log(id, latestItems.current);
     latestItems.current = filter(latestItems.current, id);
     setItems(latestItems.current);
   };
