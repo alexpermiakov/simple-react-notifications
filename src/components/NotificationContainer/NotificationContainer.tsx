@@ -10,6 +10,7 @@ const animationTime = 300;
 
 const NotificationContainer = (props: Config) => {
   const [, setItems] = useState([] as JSX.Element[]);
+  const [itemId, increaseId] = useState(0);
   // we have to use ref here instead of items from the useState above,
   // otherwise in setTimeout we will access the same items from
   // the clojure, but we need the latest results
@@ -22,7 +23,6 @@ const NotificationContainer = (props: Config) => {
   };
 
   useEffect(() => {
-    const itemId = latestItems.current.length;
     latestItems.current = [
       <NotificationItem
         key={itemId}
@@ -36,6 +36,7 @@ const NotificationContainer = (props: Config) => {
     ];
 
     setItems(latestItems.current);
+    increaseId(itemId + 1);
 
     setTimeout(() => {
       latestItems.current = filter(latestItems.current, itemId);
