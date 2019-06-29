@@ -10,12 +10,13 @@
 .simple-react-notifier {
   position: fixed;
   top: 0;
-  color: white;
   right: 0;
   z-index: 9999;
-  padding: 4px;
-  width: 320px;
-  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.simple-react-notifier > * {
+  pointer-events: initial;
 }
 
 .simple-react-notifier.top-left {
@@ -25,7 +26,7 @@
 
 .simple-react-notifier.top-center {
   left: 50%;
-  transform: translate(-160px, 0);
+  transform: translate(-50%, 0);
   right: auto;
 }
 
@@ -39,7 +40,7 @@
 .simple-react-notifier.bottom-center {
   top: auto;
   left: 50%;
-  transform: translate(-160px, 0);
+  transform: translate(-50%, 0);
   right: auto;
   bottom: 0;
 }
