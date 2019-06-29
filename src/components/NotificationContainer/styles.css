@@ -1,4 +1,13 @@
-#simple-react-notifier {
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.simple-react-notifier {
   position: fixed;
   top: 0;
   color: white;
@@ -9,19 +18,41 @@
   box-sizing: border-box;
 }
 
-#simple-react-notifier.top-left {
+.simple-react-notifier.top-left {
   left: 0;
   right: auto;
 }
 
-#simple-react-notifier.bottom-left {
+.simple-react-notifier.top-center {
+  left: 50%;
+  transform: translate(-160px, 0);
+  right: auto;
+}
+
+.simple-react-notifier.bottom-left {
   top: auto;
   right: auto;
   left: 0;
   bottom: 0;
 }
 
-#simple-react-notifier.bottom-right {
+.simple-react-notifier.bottom-center {
+  top: auto;
+  left: 50%;
+  transform: translate(-160px, 0);
+  right: auto;
+  bottom: 0;
+}
+
+.simple-react-notifier.bottom-right {
   top: auto;
   bottom: 0;
+}
+
+.notification-items > div {
+  animation-timing-function: ease-in;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+  animation-name: fadeOut;
 }

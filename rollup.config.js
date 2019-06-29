@@ -4,6 +4,7 @@ import external from "rollup-plugin-peer-deps-external";
 import resolve from "rollup-plugin-node-resolve";
 import bundleSize from "rollup-plugin-bundle-size";
 import postcss from "rollup-plugin-postcss";
+import { terser } from "rollup-plugin-terser";
 import pkg from "./package.json";
 
 export default {
@@ -46,6 +47,7 @@ export default {
     postcss({
       extract: true
     }),
+    terser(),
     bundleSize()
   ]
 };

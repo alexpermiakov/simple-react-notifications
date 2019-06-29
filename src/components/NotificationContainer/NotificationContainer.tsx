@@ -1,50 +1,43 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Config } from "../../index";
-import NotificationItem from "../NotificationItem/NotificationItem";
+import DefaultNotificationItem from "../NotificationItem/NotificationItem";
 import "./styles.css";
 
 const filter = (ar: JSX.Element[], id: number) =>
   ar.filter((it: JSX.Element) => it.key != id);
 
-const animationTime = 300;
-
-const NotificationContainer = (props: Config) => {
+export default (props: Config & { id: number }) => {
   const [, setItems] = useState([] as JSX.Element[]);
-  const [itemId, increaseId] = useState(0);
-  // we have to use ref here instead of items from the useState above,
-  // otherwise in setTimeout we will access the same items from
-  // the clojure, but we need the latest results
   const latestItems = useRef([] as JSX.Element[]);
-  const duration = props.duration || 3000;
+  const { duration = 3000, delay = 0, animationTime = 300, id } = props;
 
   const onItemClose = (id: number) => {
     latestItems.current = filter(latestItems.current, id);
     setItems(latestItems.current);
   };
 
+  const NewItem = props.render || DefaultNotificationItem;
+
   useEffect(() => {
     latestItems.current = [
-      <NotificationItem
-        key={itemId}
-        message={props.message}
+      <NewItem
+        key={id}
+        message={props.message || ""}
         type={props.type}
         animationDelay={duration - animationTime + "ms"}
         animationDuration={animationTime + "ms"}
-        onClose={() => onItemClose(itemId)}
+        onClose={() => onItemClose(id)}
       />,
-      ...latestItems.current
+      ...(props.replace ? [] : latestItems.current)
     ];
 
-    setItems(latestItems.current);
-    increaseId(itemId + 1);
+    setTimeout(() => setItems(latestItems.current), delay);
 
     setTimeout(() => {
-      latestItems.current = filter(latestItems.current, itemId);
+      latestItems.current = filter(latestItems.current, id);
       setItems(latestItems.current);
-    }, duration);
+    }, delay + duration);
   }, [props]);
 
   return <>{...latestItems.current}</>;
 };
-
-export default NotificationContainer;
