@@ -12,6 +12,8 @@ type Animation = {
 };
 
 export type Config = {
+  message?: string;
+  type?: string;
   position?: string;
   autoClose?: number;
   delay?: number;
@@ -49,10 +51,6 @@ let globalCfg: Config;
 
 const notifier = (cfg?: Config) => {
   cfg = { ...(globalCfg || {}), ...cfg };
-  if (!cfg.render) {
-    throw "Opps, nothing to render here. Specify a render function.";
-  }
-
   const { position = "top-right", containerWidth = "320px" } = cfg;
   let modalRoot = document.querySelector("." + cls + "." + position);
   if (!modalRoot) {
@@ -78,6 +76,16 @@ const notifier = (cfg?: Config) => {
   id++;
   return id - 1;
 };
+
+// ["info", "success", "error"].forEach(
+//   type =>
+//     (notifier[type] = (message: string) => {
+//       notifier({ message, type });
+//     })
+// );
+
+notifier.success = (message: string) => notifier({ message, type: "success" });
+notifier.error = (message: string) => notifier({ message, type: "error" });
 
 notifier.configure = (cfg: Config) => {
   globalCfg = cfg;

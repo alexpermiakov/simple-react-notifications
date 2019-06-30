@@ -40,3 +40,41 @@
   top: auto;
   bottom: 0;
 }
+
+.simple-react-notifier .item {
+  position: relative;
+  background: white;
+  color: black;
+  min-height: 48px;
+  margin-bottom: 16px;
+  padding: 8px;
+  border-radius: 1px;
+  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.simple-react-notifier .item span {
+  margin: 0 20px 0 10px;
+}
+
+.simple-react-notifier .item button {
+  cursor: pointer;
+  color: white;
+  background: transparent;
+  border: 0;
+  opacity: 0.7;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.simple-react-notifier .item.success {
+  background: #0bb63e;
+  color: white;
+}
+
+.simple-react-notifier .item.error {
+  background: #b60b0b;
+  color: white;
+}

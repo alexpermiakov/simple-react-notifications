@@ -7,7 +7,7 @@ $ yarn add simple-react-notifier
 
 ## Usage
 
-### We have to provide the component to render
+### Notifier has a few built-in components for displaying an error or a successfull operation:
 
 ```javascript
 import React, { Component } from "react";
@@ -17,56 +17,69 @@ import "simple-react-notifier/dist/index.css";
 const App = () => (
   <div>
     <button
-      onClick={() =>
-        notifier({
-          render: () => <div>Hi!</div>
-        })
-      }
+      onClick={() => {
+        notifier.success("Your items have been updated");
+        notifier.error("Something went wrong, try again.");
+      }}
     >
-      Notify with just a text message!
+      Let's render a default component
     </button>
   </div>
 );
 ```
 
-### Let's render a notification component, so first let's define it:
+### The real power comes with rendering our own component.
+
+### In this case it's not even a notification, just a view with real data:
 
 ```javascript
-const Notification = ({ message, onClose }: any) => (
-  <div className="item info">
-    <span>ℹ {message}</span>
-    <button onClick={onClose}>✖</button>
+const RouteInfo = ({ header, onClosePanel }: any) => (
+  <div className="route-info">
+    <h3>{header}</h3>
+    <p>
+      Bicycle 2.4 km, 8 min. Use caution - may involve errors or sections not
+      suited for bicycling
+    </p>
+    <ol>
+      <li>Head east toward Success Rd</li>
+      <li>Continue onto High Bridge Rd</li>
+      <li>Slight left to stay on Jackson Mills Rd</li>
+      <li>At the traffic circle, take the 3rd exit onto Crine Rd</li>
+    </ol>
+    <button onClick={onClosePanel}>Close info panel</button>
   </div>
 );
 ```
 
 ```css
-.simple-react-notifier .item {
+.route-info {
+  height: 400px;
+  background: white;
+  color: black;
+  padding: 8px 16px;
   position: relative;
-  background: #3498db;
-  color: white;
-  min-height: 48px;
-  margin-bottom: 16px;
-  padding: 8px;
-  border-radius: 1px;
-  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
 }
 
-.simple-react-notifier .item span {
-  margin: 0 20px 0 10px;
+.route-info ol {
+  padding: 0 0 0 16px;
 }
 
-.simple-react-notifier .item button {
-  cursor: pointer;
-  color: white;
-  background: transparent;
-  border: 0;
-  opacity: 0.7;
+.route-info ol li {
+  margin-bottom: 8px;
+}
+
+.route-info button {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 2em;
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #4eb5f1;
+  text-align: center;
+  border: none;
   position: absolute;
-  top: 8px;
-  right: 8px;
+  bottom: 16px;
+  right: 16px;
 }
 ```
 
@@ -76,11 +89,11 @@ const App = () => (
     <button
       onClick={() =>
         notifier({
-          render: ({ key, onClose }) => (
-            <Notification
+          render: ({ id, onClose }) => (
+            <RouteInfo
               key={id}
-              onClose={onClose}
-              message={"Check this out, looks great!"}
+              onClosePanel={onClose}
+              header={"The shortest way to ride home."}
             />
           )
         })

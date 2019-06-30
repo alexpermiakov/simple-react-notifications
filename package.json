@@ -1,7 +1,7 @@
 {
   "name": "simple-react-notifier",
-  "version": "1.0.14",
-  "description": "",
+  "version": "1.0.15",
+  "description": "A tiny (1kb gzip) react library for showing notifications.",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",

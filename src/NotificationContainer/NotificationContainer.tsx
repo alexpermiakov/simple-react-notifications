@@ -5,6 +5,13 @@ import "./styles.css";
 const filter = (ar: JSX.Element[], id: number) =>
   ar.filter((it: JSX.Element) => it.key != id);
 
+const Notification = ({ message, onClose, type = "info" }: any) => (
+  <div className={`item ${type}`}>
+    <span>{message}</span>
+    <button onClick={onClose}>✖</button>
+  </div>
+);
+
 export default (props: Config & { id: number; cleared: () => void }) => {
   const [, setItems] = useState([] as JSX.Element[]);
   const items = useRef([] as JSX.Element[]);
@@ -17,7 +24,12 @@ export default (props: Config & { id: number; cleared: () => void }) => {
   };
 
   useEffect(() => {
-    let newItem = props.render({ id, onClose: () => removeItemById(id) });
+    const params = { id, onClose: () => removeItemById(id) };
+    let newItem = props.render ? (
+      props.render(params)
+    ) : (
+      <Notification {...props} {...params} />
+    );
     const { animation = {} } = props;
     const animationDuration = animation.duration || 300;
 
