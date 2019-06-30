@@ -67,7 +67,7 @@ const RouteInfo = ({ header, onClosePanel }: any) => (
 );
 ```
 
-Put the css below in your .css file. It completely up to us how we can add styles. We can use styled-components or whatever we like. The notify() method will just render it.
+Put the css below in your .css file. It completely up to us the way we add styles. We can use styled-components or whatever we like. The notify() method will just render it.
 
 ```css
 .route-info {
@@ -125,11 +125,11 @@ const App = () => (
 );
 ```
 
-As you can see here, render() receives onClose callback, which we have to provide and call inside our component in order to close the notification.
+As you can see here, render() receives onClose callback, which we have to pass inside our component in order to close the notification when user click on the button.
 
 ### Positioning
 
-Instead of specifing all params again and again for each item, we can put it in one place:
+By default, all items will be positioned in the top right corner. The following values are allowed: top-right, top-center, top-left, bottom-right, bottom-center, bottom-left.
 
 ```javascript
 notifier.configure({
@@ -190,9 +190,6 @@ const App = () => (
 
 Params in notifier function will override their default values in configure().
 
-By default, all items will be positioned in the top right corner.
-The following values are allowed: top-right, top-center, top-left, bottom-right, bottom-center, bottom-left
-
 ### Animation
 
 First, define the css-animation somewhere in your .css file:
@@ -225,7 +222,7 @@ notifier.configure({
   animation: {
     in: "fadeIn",
     out: "fadeOut",
-    duration: 600
+    duration: 600 // overriding the default(400ms) value
   }
 });
 
@@ -242,7 +239,7 @@ const App = () => (
 );
 ```
 
-You can omit the duration param. The default value (400ms) will be used.
+You can specify only in or out params as well.
 
 ### Remove notification items programmatically
 
