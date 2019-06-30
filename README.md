@@ -5,7 +5,7 @@ we don't want to blow our bundle size because of notifications, right?
 
 Despite the tiny size, it supports:
 
-- [Rendering success and error default notification](#rendering-success-and-error-default-notifications)
+- [Rendering success and error default notifications](#rendering-success-and-error-default-notifications)
 - [Rendering user defined component](#rendering-user-defined-component)
 - [Positioning](#positioning)
 - [Configuring all in one place](#configuring-all-in-one-place)
@@ -21,12 +21,12 @@ $ yarn add simple-react-notifier
 
 ## Usage
 
-### Rendering success and error default notification
+### Rendering success and error default notifications
 
 Notifier has a few built-in components for displaying an error or a successfull operation:
 
 ```javascript
-import React, { Component } from "react";
+import React from "react";
 import notifier from "simple-react-notifier";
 import "simple-react-notifier/dist/index.css";
 
@@ -133,11 +133,11 @@ Instead of specifing all params again and again for each item, we can put it in 
 
 ```javascript
 notifier.configure({
-  render: ({ key, onClose }) => (
-    <Notification
+  render: ({ id, onClose }) => (
+    <RouteInfo
       key={id}
-      onClose={onClose}
-      message={`It will display the same message for all notification items`}
+      onClosePanel={onClose}
+      header={"The shortest way to ride home."}
     />
   )
 });
@@ -170,7 +170,7 @@ notifier.configure({
   autoClose: 5000,
   position: "top-center",
   delay: 1000,
-  single: true,
+  single: true, // display only the latest item
   containerWidth: "480px"
 });
 
@@ -179,11 +179,11 @@ const App = () => (
     <button
       onClick={() =>
         notifier({
-          render: ({ key, onClose }) => (
-            <Notification
+          render: ({ id, onClose }) => (
+            <RouteInfo
               key={id}
-              onClose={onClose}
-              message={`The current second is: ${new Date().getSeconds()}`}
+              onClosePanel={onClose}
+              header={"The shortest way to ride home."}
             />
           )
         })
@@ -202,7 +202,7 @@ The following values are allowed: top-right, top-center, top-left, bottom-right,
 
 ### Animation
 
-First, define you css-animation somewhere in your .css file:
+First, define the css-animation somewhere in your .css file:
 
 ```css
 @keyframes fadeIn {
@@ -228,11 +228,12 @@ Second, specify it during the notifier() call or in configure():
 
 ```javascript
 notifier.configure({
-  render: ({ key, onClose }) => (
-    <Notification
+  position: "top-center",
+  render: ({ id, onClose }) => (
+    <RouteInfo
       key={id}
-      onClose={onClose}
-      message="Your items have been updates"
+      onClosePanel={onClose}
+      header={"The shortest way to ride home."}
     />
   )
 });
@@ -242,7 +243,6 @@ const App = () => (
     <button
       onClick={() => {
         notifier({
-          position: "top-center",
           animation: {
             in: "fadeIn",
             out: "fadeOut",
@@ -262,20 +262,20 @@ You can omit the duration param. The default value (400ms) will be used.
 ### Remove notification items programmatically
 
 ```javascript
-import React, { Component } from "react";
+import React from "react";
 import notifier from "simple-react-notifier";
 
 notifier.configure({
-  render: ({ key, onClose }) => (
-    <Notification
+  render: ({ id, onClose }) => (
+    <RouteInfo
       key={id}
-      onClose={onClose}
-      message="Your items have been updates"
+      onClosePanel={onClose}
+      header={"The shortest way to ride home."}
     />
   )
 });
 
-class App extends Component {
+class App extends React.Component {
   id = null;
 
   render() {
