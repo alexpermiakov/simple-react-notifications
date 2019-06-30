@@ -35,7 +35,7 @@ const App = () => (
     <button
       onClick={() => {
         notifier.success("Your items have been updated");
-        notifier.error("Something went wrong, try again.");
+        // notifier.error("Something went wrong, try again.");
       }}
     >
       Lets render a default component
@@ -49,7 +49,7 @@ const App = () => (
 The real power comes with rendering our own component. In this case it's not even a notification, just a view with real data:
 
 ```javascript
-const RouteInfo = ({ header, onClosePanel }: any) => (
+const RouteInfo = ({ header, onClosePanel }) => (
   <div className="route-info">
     <h3>{header}</h3>
     <p>
@@ -76,6 +76,7 @@ Put the css below in your .css file. It completely up to us the way we add style
   color: black;
   padding: 8px 16px;
   position: relative;
+  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
 }
 
 .route-info ol {
@@ -132,27 +133,24 @@ As you can see here, render() receives onClose callback, which we have to pass i
 By default, all items will be positioned in the top right corner. The following values are allowed: top-right, top-center, top-left, bottom-right, bottom-center, bottom-left.
 
 ```javascript
-notifier.configure({
-  single: true, // display only the latest item
-  render: ({ id, onClose }) => (
-    <RouteInfo
-      key={id}
-      onClosePanel={onClose}
-      header={"The shortest way to ride home."}
-    />
-  )
-});
-
 const App = () => (
   <div>
     <button
       onClick={() => {
-        notifier({
-          position: "top-left"
-        });
+        // notifier({
+        //   position: "top-left"
+        // });
 
         notifier({
-          position: "top-center"
+          single: true, // display only the latest item
+          position: "top-center",
+          render: ({ id, onClose }) => (
+            <RouteInfo
+              key={id}
+              onClosePanel={onClose}
+              header={"The shortest way to ride home."}
+            />
+          )
         });
       }}
     >
@@ -168,10 +166,10 @@ Instead of specifing all params again and again for each item, we can put it in 
 
 ```javascript
 notifier.configure({
-  autoClose: 5000,
+  autoClose: 2000,
   position: "top-center",
-  delay: 1000,
-  single: true,
+  delay: 500,
+  single: false,
   containerWidth: "480px"
 });
 
@@ -182,7 +180,7 @@ const App = () => (
         notifier.success("Your items have been updated");
       }}
     >
-      Display an item with 1 second delay. Now it is done in configure()
+      Display an item with 500 ms delay. Now it is done in configure()
     </button>
   </div>
 );
@@ -220,9 +218,9 @@ Second, specify it during the notifier() call or in configure():
 notifier.configure({
   position: "top-center",
   animation: {
-    in: "fadeIn",
+    in: "fadeIn", // try to comment it out
     out: "fadeOut",
-    duration: 600 // overriding the default(400ms) value
+    duration: 600 // overriding the default(300ms) value
   }
 });
 

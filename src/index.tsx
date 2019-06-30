@@ -77,13 +77,6 @@ const notifier = (cfg?: Config) => {
   return id - 1;
 };
 
-// ["info", "success", "error"].forEach(
-//   type =>
-//     (notifier[type] = (message: string) => {
-//       notifier({ message, type });
-//     })
-// );
-
 notifier.success = (message: string) => notifier({ message, type: "success" });
 notifier.error = (message: string) => notifier({ message, type: "error" });
 

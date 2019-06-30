@@ -28,7 +28,7 @@ export default (props: Config & { id: number; cleared: () => void }) => {
     let newItem = props.render ? (
       props.render(params)
     ) : (
-      <Notification {...props} {...params} />
+      <Notification {...props} {...params} key={id} />
     );
     const { animation = {} } = props;
     const animationDuration = animation.duration || 300;
