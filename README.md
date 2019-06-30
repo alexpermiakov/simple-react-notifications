@@ -1,6 +1,6 @@
 # Simple-React-Notifier
 
-Simple-React-Notifier allow you to add notifications to your app. It has very tiny size (1kb gzip),
+Simple-React-Notifier allows you to add notifications to your app. It has very tiny size (1kb gzip),
 we don't want to blow our bundle size because of notifications, right?
 
 Despite the tiny size, it supports:
@@ -133,6 +133,7 @@ Instead of specifing all params again and again for each item, we can put it in 
 
 ```javascript
 notifier.configure({
+  single: true, // display only the latest item
   render: ({ id, onClose }) => (
     <RouteInfo
       key={id}
@@ -170,24 +171,16 @@ notifier.configure({
   autoClose: 5000,
   position: "top-center",
   delay: 1000,
-  single: true, // display only the latest item
+  single: true,
   containerWidth: "480px"
 });
 
 const App = () => (
   <div>
     <button
-      onClick={() =>
-        notifier({
-          render: ({ id, onClose }) => (
-            <RouteInfo
-              key={id}
-              onClosePanel={onClose}
-              header={"The shortest way to ride home."}
-            />
-          )
-        })
-      }
+      onClick={() => {
+        notifier.success("Your items have been updated");
+      }}
     >
       Display an item with 1 second delay. Now it is done in configure()
     </button>
@@ -229,26 +222,18 @@ Second, specify it during the notifier() call or in configure():
 ```javascript
 notifier.configure({
   position: "top-center",
-  render: ({ id, onClose }) => (
-    <RouteInfo
-      key={id}
-      onClosePanel={onClose}
-      header={"The shortest way to ride home."}
-    />
-  )
+  animation: {
+    in: "fadeIn",
+    out: "fadeOut",
+    duration: 600
+  }
 });
 
 const App = () => (
   <div>
     <button
       onClick={() => {
-        notifier({
-          animation: {
-            in: "fadeIn",
-            out: "fadeOut",
-            duration: 600
-          }
-        });
+        notifier.success("Your items have been updated");
       }}
     >
       Show two of them in different places
