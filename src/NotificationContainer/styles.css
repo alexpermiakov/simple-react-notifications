@@ -1,12 +1,3 @@
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
 .simple-react-notifier {
   position: fixed;
   top: 0;
@@ -48,12 +39,4 @@
 .simple-react-notifier.bottom-right {
   top: auto;
   bottom: 0;
-}
-
-.notification-items > div {
-  animation-timing-function: ease-in;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-  animation-fill-mode: forwards;
-  animation-name: fadeOut;
 }

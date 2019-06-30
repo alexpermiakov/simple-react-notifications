@@ -8,7 +8,7 @@ const filter = (ar: JSX.Element[], id: number) =>
 export default (props: Config & { id: number; cleared: () => void }) => {
   const [, setItems] = useState([] as JSX.Element[]);
   const items = useRef([] as JSX.Element[]);
-  const { duration = 3000, delay = 0, id } = props;
+  const { autoClose = 3000, delay = 0, id } = props;
 
   const removeItemById = (id: number) => {
     items.current = filter(items.current, id);
@@ -17,15 +17,30 @@ export default (props: Config & { id: number; cleared: () => void }) => {
   };
 
   useEffect(() => {
-    items.current = [
-      props.render({ id, onClose: () => removeItemById(id) }),
-      ...(props.replace ? [] : items.current)
-    ];
+    let newItem = props.render({ id, onClose: () => removeItemById(id) });
+    const { animation = {} } = props;
+    const animationDuration = animation.duration || 300;
 
+    if (animation.in || animation.out) {
+      newItem = (
+        <div
+          key={id}
+          style={{
+            animationName: `${animation.in}, ${animation.out}`,
+            animationDelay: `0ms, ${delay + autoClose}ms`,
+            animationDuration: `${animationDuration}ms, ${animationDuration}ms`
+          }}
+        >
+          {newItem}
+        </div>
+      );
+    }
+
+    items.current = [newItem, ...(props.single ? [] : items.current)];
     eventManager.add(id, () => removeItemById(id));
 
     setTimeout(() => setItems(items.current), delay);
-    setTimeout(() => removeItemById(id), delay + duration);
+    setTimeout(() => removeItemById(id), delay + autoClose + animationDuration);
   }, [props]);
 
   return <>{...items.current}</>;

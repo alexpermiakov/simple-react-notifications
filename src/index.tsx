@@ -4,14 +4,21 @@ import NotificationContainer from "./NotificationContainer/NotificationContainer
 
 const cls = "simple-react-notifier";
 
+type Animation = {
+  in?: string;
+  out?: string;
+  duration?: number;
+  timingFunction?: string;
+};
+
 export type Config = {
   position?: string;
-  duration?: number;
+  autoClose?: number;
   delay?: number;
   render?: any;
-  replace?: boolean;
-  animationTime?: number;
+  single?: boolean;
   containerWidth?: string;
+  animation?: Animation;
 };
 
 let id = 0;
