@@ -1,3 +1,17 @@
+# Simple-React-Notifier
+
+Simple-React-Notifier allow you to add notifications to your app. It has very tiny size (1kb gzip),
+we don't want to blow our bundle size because of notifications, right?
+
+Despite the tiny size, it supports:
+
+- [Rendering success and error default notification](#rendering-success-and-error-default-notifications)
+- [Rendering user defined component](#rendering-user-defined-component)
+- [Positioning](#positioning)
+- [Configuring all in one place](#configuring-all-in-one-place)
+- [Animation](#animation)
+- [Remove notification items programmatically](#remove-notification-items-programmatically)
+
 ## Installation
 
 ```
@@ -7,7 +21,9 @@ $ yarn add simple-react-notifier
 
 ## Usage
 
-### Notifier has a few built-in components for displaying an error or a successfull operation:
+### Rendering success and error default notification
+
+Notifier has a few built-in components for displaying an error or a successfull operation:
 
 ```javascript
 import React, { Component } from "react";
@@ -22,15 +38,15 @@ const App = () => (
         notifier.error("Something went wrong, try again.");
       }}
     >
-      Let's render a default component
+      Lets render a default component
     </button>
   </div>
 );
 ```
 
-### The real power comes with rendering our own component.
+### Rendering user defined component
 
-### In this case it's not even a notification, just a view with real data:
+The real power comes with rendering our own component. In this case it's not even a notification, just a view with real data:
 
 ```javascript
 const RouteInfo = ({ header, onClosePanel }: any) => (
@@ -50,6 +66,8 @@ const RouteInfo = ({ header, onClosePanel }: any) => (
   </div>
 );
 ```
+
+Put the css below in your .css file. It completely up to us how we can add styles. We can use styled-components or whatever we like. The notify() method will just render it.
 
 ```css
 .route-info {
@@ -83,6 +101,8 @@ const RouteInfo = ({ header, onClosePanel }: any) => (
 }
 ```
 
+And now we can use it like this:
+
 ```javascript
 const App = () => (
   <div>
@@ -105,70 +125,11 @@ const App = () => (
 );
 ```
 
-##### As you can see here, render() receives onClose callback, which we have to provide and call inside our component in order to close the notification.
-
-#### Now we can add more properties:
-
-```javascript
-const App = () => (
-  <div>
-    <button
-      onClick={() =>
-        notifier({
-          autoClose: 5000,
-          position: "top-center",
-          delay: 1000,
-          render: ({ key, onClose }) => (
-            <Notification
-              key={id}
-              onClose={onClose}
-              message={"Check this out, looks great!"}
-            />
-          )
-        })
-      }
-    >
-      Display an item with 1 second delay
-    </button>
-  </div>
-);
-```
-
-#### Instead of specifing all params again and again for each item, we can put it in one place:
-
-```javascript
-notifier.configure({
-  autoClose: 5000,
-  position: "top-center",
-  delay: 1000
-});
-
-const App = () => (
-  <div>
-    <button
-      onClick={() =>
-        notifier({
-          render: ({ key, onClose }) => (
-            <Notification
-              key={id}
-              onClose={onClose}
-              message={`The current second is: ${new Date().getSeconds()}`}
-            />
-          )
-        })
-      }
-    >
-      Display an item with 1 second delay. Now it's done in configure()
-    </button>
-  </div>
-);
-```
-
-#### Params in notifier function will override their default values in configure().
+As you can see here, render() receives onClose callback, which we have to provide and call inside our component in order to close the notification.
 
 ### Positioning
 
-#### Instead of specifing all params again and again for each item, we can put it in one place:
+Instead of specifing all params again and again for each item, we can put it in one place:
 
 ```javascript
 notifier.configure({
@@ -200,22 +161,9 @@ const App = () => (
 );
 ```
 
-#### By default, all items will be positioned in the top right corner.
+### Configuring all in one place
 
-#### The following values are allowed: top-right, top-center, top-left, bottom-right, bottom-center, bottom-left
-
-### If we want to display only single message:
-
-```javascript
-notifier.configure({
-  autoClose: 5000,
-  position: "top-center",
-  delay: 1000,
-  single: true
-});
-```
-
-### You might want to change the container's width:
+Instead of specifing all params again and again for each item, we can put it in one place:
 
 ```javascript
 notifier.configure({
@@ -225,11 +173,36 @@ notifier.configure({
   single: true,
   containerWidth: "480px"
 });
+
+const App = () => (
+  <div>
+    <button
+      onClick={() =>
+        notifier({
+          render: ({ key, onClose }) => (
+            <Notification
+              key={id}
+              onClose={onClose}
+              message={`The current second is: ${new Date().getSeconds()}`}
+            />
+          )
+        })
+      }
+    >
+      Display an item with 1 second delay. Now it is done in configure()
+    </button>
+  </div>
+);
 ```
+
+Params in notifier function will override their default values in configure().
+
+By default, all items will be positioned in the top right corner.
+The following values are allowed: top-right, top-center, top-left, bottom-right, bottom-center, bottom-left
 
 ### Animation
 
-#### First, define you css-animation somewhere in your .css file:
+First, define you css-animation somewhere in your .css file:
 
 ```css
 @keyframes fadeIn {
@@ -251,7 +224,7 @@ notifier.configure({
 }
 ```
 
-#### Second, specify it during the notifier() call or in configure():
+Second, specify it during the notifier() call or in configure():
 
 ```javascript
 notifier.configure({
@@ -269,11 +242,11 @@ const App = () => (
     <button
       onClick={() => {
         notifier({
-          position: "top-left",
+          position: "top-center",
           animation: {
             in: "fadeIn",
             out: "fadeOut",
-            duration: 400
+            duration: 600
           }
         });
       }}
@@ -284,7 +257,7 @@ const App = () => (
 );
 ```
 
-#### You can omit the duration param. The default value (400ms) will be used.
+You can omit the duration param. The default value (400ms) will be used.
 
 ### Remove notification items programmatically
 
