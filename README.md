@@ -1,9 +1,9 @@
 # Simple-React-Notifier
 
-Simple-React-Notifier allows you to add notifications to your app. It has very tiny size (1kb gzip),
-we don't want to blow our bundle size because of notifications, right?
+A tiny library (only 1kb gzip) that allows you to add notifications to your app.
+We don't want to blow up our bundle size because of notifications, right?
 
-Despite the tiny size, it supports:
+Despite the small size, it supports:
 
 - [Rendering success and error default notifications](#rendering-success-and-error-default-notifications)
 - [Rendering user defined component](#rendering-user-defined-component)
