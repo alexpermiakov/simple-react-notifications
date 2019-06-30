@@ -1,6 +1,6 @@
 {
   "name": "simple-react-notifier",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Tiny react.js notification library (1kb gzip).",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
