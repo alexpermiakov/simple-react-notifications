@@ -1,4 +1,4 @@
-# Simple-React-Notifier
+# Simple-React-Notifications
 
 Tiny library (only 1kb gzip) that allows you to add notifications to your app.
 We don't want to blow up our bundle size because of notifications, right?
@@ -15,8 +15,8 @@ Despite the small size, it supports:
 ## Installation
 
 ```
-$ npm install simple-react-notifier
-$ yarn add simple-react-notifier
+$ npm install simple-react-notifications
+$ yarn add simple-react-notifications
 ```
 
 ## Usage
@@ -27,8 +27,8 @@ Notifier has a few built-in components for displaying an error or a successfull 
 
 ```javascript
 import React from "react";
-import notifier from "simple-react-notifier";
-import "simple-react-notifier/dist/index.css";
+import notifier from "simple-react-notifications";
+import "simple-react-notifications/dist/index.css";
 
 const App = () => (
   <div>
@@ -70,14 +70,6 @@ Put the css below in your .css file. It completely up to us the way we add style
   padding: 8px 16px;
   position: relative;
   box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
-}
-
-.route-info ol {
-  padding: 0 0 0 16px;
-}
-
-.route-info ol li {
-  margin-bottom: 8px;
 }
 ```
 
@@ -222,7 +214,7 @@ You can specify only in or out params as well.
 
 ```javascript
 import React from "react";
-import notifier from "simple-react-notifier";
+import notifier from "simple-react-notifications";
 
 notifier.configure({
   render: ({ id, onClose }) => (
