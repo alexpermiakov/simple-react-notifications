@@ -1,6 +1,6 @@
 # Simple-React-Notifier
 
-A tiny library (only 1kb gzip) that allows you to add notifications to your app.
+Tiny library (only 1kb gzip) that allows you to add notifications to your app.
 We don't want to blow up our bundle size because of notifications, right?
 
 Despite the small size, it supports:
@@ -50,19 +50,12 @@ The real power comes with rendering our own component. In this case it's not eve
 
 ```javascript
 const RouteInfo = ({ header, onClosePanel }) => (
-  <div className="route-info">
+  <div className="route-info" onClick={onClosePanel}>
     <h3>{header}</h3>
     <p>
       Bicycle 2.4 km, 8 min. Use caution - may involve errors or sections not
       suited for bicycling
     </p>
-    <ol>
-      <li>Head east toward Success Rd</li>
-      <li>Continue onto High Bridge Rd</li>
-      <li>Slight left to stay on Jackson Mills Rd</li>
-      <li>At the traffic circle, take the 3rd exit onto Crine Rd</li>
-    </ol>
-    <button onClick={onClosePanel}>Close info panel</button>
   </div>
 );
 ```
@@ -85,20 +78,6 @@ Put the css below in your .css file. It completely up to us the way we add style
 
 .route-info ol li {
   margin-bottom: 8px;
-}
-
-.route-info button {
-  display: inline-block;
-  padding: 8px 16px;
-  border-radius: 2em;
-  text-decoration: none;
-  color: #ffffff;
-  background-color: #4eb5f1;
-  text-align: center;
-  border: none;
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
 }
 ```
 
