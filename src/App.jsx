@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import notifier from "simple-react-notifications";
 import GithubIcon from "./GithubIcon";
 
 const Header = styled.div`
@@ -43,20 +44,20 @@ const getPrintedCode = (options, n = 1) => {
 const getConfigureExample = options =>
   "notifier.configure({\n" + getPrintedCode(options) + "});";
 
-const App = () => {
-  const options = {
-    autoClose: 2000,
-    position: "top-center",
-    delay: 500,
-    single: false,
-    containerWidth: "480px",
-    animation: {
-      in: "fadeIn",
-      out: "fadeOut",
-      duration: 400
-    }
-  };
+const options = {
+  autoClose: 2000,
+  position: "top-center",
+  delay: 500,
+  single: false,
+  containerWidth: "480px",
+  animation: {
+    in: "fadeIn",
+    out: "fadeOut",
+    duration: 400
+  }
+};
 
+const App = () => {
   return (
     <>
       <section className="section">
@@ -64,6 +65,15 @@ const App = () => {
           <h1 className="subtitle">Simple React Notifications</h1>
           <GithubIcon />
         </Header>
+        <div className="section">
+          <button
+            onClick={() => {
+              notifier.success("Yeahhh!");
+            }}
+          >
+            Show notification
+          </button>
+        </div>
       </section>
       <Settings>
         <div className="column">
