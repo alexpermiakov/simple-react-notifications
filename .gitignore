@@ -3,3 +3,4 @@ dist
 .cache
 .DS_Store
 coverage
+build
