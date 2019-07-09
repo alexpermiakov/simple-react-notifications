@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import notifier from "simple-react-notifications";
+import "simple-react-notifications/dist/index.css";
 import GithubIcon from "./GithubIcon";
 
 const Header = styled.div`
