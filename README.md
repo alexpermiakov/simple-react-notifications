@@ -1,242 +1,68 @@
-# Simple-React-Notifications
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Tiny library (only 1kb gzip) that allows you to add notifications to your app.
-We don't want to blow up our bundle size because of notifications, right?
+## Available Scripts
 
-Despite the small size, it supports:
+In the project directory, you can run:
 
-- [Rendering success and error default notifications](#rendering-success-and-error-default-notifications)
-- [Rendering user defined component](#rendering-user-defined-component)
-- [Positioning](#positioning)
-- [Configuring all in one place](#configuring-all-in-one-place)
-- [Animation](#animation)
-- [Remove notification items programmatically](#remove-notification-items-programmatically)
+### `npm start`
 
-## Installation
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-```
-$ npm install simple-react-notifications
-$ yarn add simple-react-notifications
-```
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
 
-## Usage
+### `npm test`
 
-### Rendering success and error default notifications
+Launches the test runner in the interactive watch mode.<br>
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-Notifier has a few built-in components for displaying an error or a successfull operation:
+### `npm run build`
 
-```javascript
-import React from "react";
-import notifier from "simple-react-notifications";
-import "simple-react-notifications/dist/index.css";
+Builds the app for production to the `build` folder.<br>
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-const App = () => (
-  <div>
-    <button
-      onClick={() => {
-        notifier.success("Your items have been updated");
-        // notifier.error("Something went wrong, try again.");
-      }}
-    >
-      Lets render a default component
-    </button>
-  </div>
-);
-```
+The build is minified and the filenames include the hashes.<br>
+Your app is ready to be deployed!
 
-### Rendering user defined component
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-The real power comes with rendering our own component. In this case it's not even a notification, just a view with real data:
+### `npm run eject`
 
-```javascript
-const RouteInfo = ({ header, onClosePanel }) => (
-  <div className="route-info" onClick={onClosePanel}>
-    <h3>{header}</h3>
-    <p>
-      Bicycle 2.4 km, 8 min. Use caution - may involve errors or sections not
-      suited for bicycling
-    </p>
-  </div>
-);
-```
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-Put the css below in your .css file. It completely up to us the way we add styles. We can use styled-components or whatever we like. The notify() method will just render it.
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-```css
-.route-info {
-  height: 400px;
-  background: white;
-  color: black;
-  padding: 8px 16px;
-  position: relative;
-  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
-}
-```
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-And now we can use it like this:
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-```javascript
-const App = () => (
-  <div>
-    <button
-      onClick={() =>
-        notifier({
-          render: ({ id, onClose }) => (
-            <RouteInfo
-              key={id}
-              onClosePanel={onClose}
-              header={"The shortest way to ride home."}
-            />
-          )
-        })
-      }
-    >
-      Notify with just a text message!
-    </button>
-  </div>
-);
-```
+## Learn More
 
-As you can see here, render() receives onClose callback, which we have to pass inside our component in order to close the notification when user click on the button.
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-### Positioning
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-By default, all items will be positioned in the top right corner. The following values are allowed: top-right, top-center, top-left, bottom-right, bottom-center, bottom-left.
+### Code Splitting
 
-```javascript
-const App = () => (
-  <div>
-    <button
-      onClick={() => {
-        // notifier({
-        //   position: "top-left"
-        // });
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-        notifier({
-          single: true, // display only the latest item
-          position: "top-center",
-          render: ({ id, onClose }) => (
-            <RouteInfo
-              key={id}
-              onClosePanel={onClose}
-              header={"The shortest way to ride home."}
-            />
-          )
-        });
-      }}
-    >
-      Show two of them in different places
-    </button>
-  </div>
-);
-```
+### Analyzing the Bundle Size
 
-### Configuring all in one place
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-Instead of specifing all params again and again for each item, we can put it in one place:
+### Making a Progressive Web App
 
-```javascript
-notifier.configure({
-  autoClose: 2000,
-  position: "top-center",
-  delay: 500,
-  single: false,
-  containerWidth: "480px"
-});
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-const App = () => (
-  <div>
-    <button
-      onClick={() => {
-        notifier.success("Your items have been updated");
-      }}
-    >
-      Display an item with 500 ms delay. Now it is done in configure()
-    </button>
-  </div>
-);
-```
+### Advanced Configuration
 
-Params in notifier function will override their default values in configure().
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-### Animation
+### Deployment
 
-First, define the css-animation somewhere in your .css file:
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
-```css
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+### `npm run build` fails to minify
 
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-```
-
-Second, specify it during the notifier() call or in configure():
-
-```javascript
-notifier.configure({
-  position: "top-center",
-  animation: {
-    in: "fadeIn", // try to comment it out
-    out: "fadeOut",
-    duration: 600 // overriding the default(300ms) value
-  }
-});
-
-const App = () => (
-  <div>
-    <button
-      onClick={() => {
-        notifier.success("Your items have been updated");
-      }}
-    >
-      Show two of them in different places
-    </button>
-  </div>
-);
-```
-
-You can specify only in or out params as well.
-
-### Remove notification items programmatically
-
-```javascript
-import React from "react";
-import notifier from "simple-react-notifications";
-
-notifier.configure({
-  render: ({ id, onClose }) => (
-    <RouteInfo
-      key={id}
-      onClosePanel={onClose}
-      header={"The shortest way to ride home."}
-    />
-  )
-});
-
-class App extends React.Component {
-  id = null;
-
-  render() {
-    return (
-      <div>
-        <button onClick={() => (this.id = notifier())}>Notify</button>
-        <button onClick={() => notifier.dismiss(this.id)}>Dismiss</button>
-        <button onClick={() => notifier.dismiss()}>Dismiss all</button>
-      </div>
-    );
-  }
-}
-```
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
