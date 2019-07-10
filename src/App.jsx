@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import notifier from "simple-react-notifications";
 import "simple-react-notifications/dist/index.css";
@@ -31,22 +31,30 @@ const Pre = styled.pre`
 const Settings = styled.section.attrs({ className: "columns" })`
   max-width: 960px;
   margin: 0 auto;
-  input {
-    height: 16px;
-    width: 16px;
+  input[type="checkbox"] {
+    height: 20px;
+    width: 20px;
   }
   .item {
     margin-bottom: 8px;
     span {
+      line-height: 36px;
+      height: 36px;
       display: inline-block;
       width: 100px;
     }
+  }
+  .input {
+    width: 130px;
+  }
+  .select select {
+    width: 130px;
   }
 `;
 
 const H3 = styled.h3`
   font-size: 18px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 `;
 
 const message = "Your items have been updated.";
@@ -55,22 +63,27 @@ const getConfigureExample = options =>
   "notifier.configure({\n" + getPrintedCode(options) + "});";
 
 const getNotificationExample = options =>
-  `notifier.success(${message}, {\n${getPrintedCode(options)}});`;
-
-const options = {
-  autoClose: 2000,
-  position: "top-right",
-  delay: 500,
-  single: false,
-  containerWidth: "480px",
-  animation: {
-    in: "fadeIn",
-    out: "fadeOut",
-    duration: 400
-  }
-};
+  `notifier.success("${message}", {\n${getPrintedCode(options)}});`;
 
 const App = () => {
+  const [type, setType] = useState("success");
+  const [options, setOptions] = useState({
+    autoClose: 2000,
+    position: "top-right",
+    delay: 0,
+    single: false,
+    containerWidth: "480px",
+    animation: {
+      in: "fadeIn",
+      out: "fadeOut",
+      duration: 400
+    }
+  });
+
+  useEffect(() => notifier.configure(options), [options]);
+
+  const { position, autoClose, single, delay } = options;
+
   return (
     <>
       <Header>
@@ -85,23 +98,34 @@ const App = () => {
           <H3>Options</H3>
           <div>
             <div className="item">
-              <span>Position</span>
+              <span>position</span>
               <div className="select">
-                <select>
-                  <option>top-left</option>
-                  <option>top-center</option>
-                  <option>top-right</option>
+                <select
+                  onChange={({ target }) => {
+                    setOptions({
+                      ...options,
+                      position: target.value
+                    });
+                  }}
+                  value={position}
+                >
+                  <option value="top-left">top-left</option>
+                  <option value="top-center">top-center</option>
+                  <option value="top-right">top-right</option>
                 </select>
               </div>
             </div>
 
             <div className="item">
-              <span>Type</span>
+              <span>type</span>
               <div className="select">
-                <select>
-                  <option>success</option>
-                  <option>error</option>
-                  <option>custom</option>
+                <select
+                  onChange={({ target }) => setType(target.value)}
+                  value={type}
+                >
+                  <option value="success">success</option>
+                  <option value="error">error</option>
+                  <option value="custom">custom</option>
                 </select>
               </div>
             </div>
@@ -109,21 +133,63 @@ const App = () => {
             <div className="item">
               <label className="checkbox">
                 <span>autoClose</span>
-                <input type="checkbox" />
+                <input
+                  className="input"
+                  type="number"
+                  value={autoClose}
+                  onChange={() => {
+                    setOptions({
+                      ...options,
+                      autoClose: autoClose ? autoClose : false
+                    });
+                  }}
+                />
+              </label>
+            </div>
+
+            <div className="item">
+              <label>
+                <span>delay</span>
+                <input
+                  className="input"
+                  type="number"
+                  onChange={() => {
+                    setOptions({
+                      ...options,
+                      delay
+                    });
+                  }}
+                />
               </label>
             </div>
 
             <div className="item">
               <label className="checkbox">
-                <span>single</span>
-                <input type="checkbox" />
+                <span style={{ height: "20px", lineHeight: "20px" }}>
+                  single
+                </span>
+                <input
+                  type="checkbox"
+                  checked={single}
+                  value={delay}
+                  onChange={() => {
+                    setOptions({
+                      ...options,
+                      single: !single
+                    });
+                  }}
+                />
               </label>
             </div>
 
             <br />
             <button
               className="button is-primary"
-              onClick={() => notifier.success(message)}
+              onClick={() => {
+                if (type === "success" || type === "error") {
+                  notifier[type](message);
+                }
+              }}
             >
               Click to show!
             </button>
@@ -134,7 +200,12 @@ const App = () => {
           <Pre>{getConfigureExample(options)}</Pre>
           <br />
           <H3>Show notification</H3>
-          <Pre>{getNotificationExample({ position: "top-right" })}</Pre>
+          <Pre>
+            {getNotificationExample({
+              position,
+              autoClose
+            })}
+          </Pre>
         </div>
       </Settings>
     </>

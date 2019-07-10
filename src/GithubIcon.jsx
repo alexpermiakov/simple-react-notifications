@@ -4,6 +4,7 @@ export default () => (
   <a
     target="_blank"
     href="https://github.com/alexpermyakov/simple-react-notifications"
+    rel="noopener noreferrer"
     className="github-corner"
     aria-label="Open GitHub project"
     style={{
