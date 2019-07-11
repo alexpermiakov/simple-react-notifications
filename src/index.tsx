@@ -1,53 +1,14 @@
 import React from "react";
 import { render } from "react-dom";
-import NotificationContainer from "./NotificationContainer/NotificationContainer";
+import NotificationContainer, {
+  eventManager,
+  Config
+} from "./NotificationContainer/NotificationContainer";
 
 const cls = "simple-react-notifier";
 
-type Animation = {
-  in?: string;
-  out?: string;
-  duration?: number;
-  timingFunction?: string;
-};
-
-export type Config = {
-  message?: string;
-  type?: string;
-  position?: string;
-  autoClose?: number;
-  delay?: number;
-  render?: any;
-  onlyLast?: boolean;
-  width?: string;
-  animation?: Animation;
-};
-
-let id = 0;
-
-type EventArg = {
-  id: number;
-  callback: () => void;
-};
-
-export const eventManager = {
-  ids: [] as EventArg[],
-  add: function(id: number, callback: () => void) {
-    this.ids.push({ id, callback });
-  },
-  remove: function(id?: number) {
-    if (id) {
-      const { callback } = this.ids.find(it => it.id === id)!;
-      callback();
-      this.ids = this.ids.filter(it => it.id !== id);
-    } else {
-      this.ids.forEach(it => it.callback());
-      this.ids = [];
-    }
-  }
-};
-
 let globalCfg: Config;
+let id = 0;
 
 const notifier = (cfg?: Config) => {
   cfg = { ...(globalCfg || {}), ...cfg };
@@ -56,6 +17,7 @@ const notifier = (cfg?: Config) => {
   if (!modalRoot) {
     modalRoot = document.createElement("div");
     modalRoot.classList.add(cls, position);
+    (modalRoot as HTMLElement).style.direction = cfg.rtl ? "rtl" : "ltr";
     document.body.appendChild(modalRoot);
   }
 

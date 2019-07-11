@@ -1,6 +1,50 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Config, eventManager } from "../index";
 import "./styles.css";
+
+type Animation = {
+  in?: string;
+  out?: string;
+  duration?: number;
+  timingFunction?: string;
+};
+
+export type Config = {
+  message?: string;
+  type?: string;
+  position?: string;
+  autoClose?: number;
+  delay?: number;
+  render?: any;
+  onlyLast?: boolean;
+  width?: string;
+  animation?: Animation;
+  newestOnTop?: boolean;
+  closeOnClick?: boolean;
+  pauseOnHover?: boolean;
+  rtl?: boolean;
+};
+
+type EventArg = {
+  id: number;
+  callback: () => void;
+};
+
+export const eventManager = {
+  ids: [] as EventArg[],
+  add: function(id: number, callback: () => void) {
+    this.ids.push({ id, callback });
+  },
+  remove: function(id?: number) {
+    if (id) {
+      const { callback } = this.ids.find(it => it.id === id)!;
+      callback();
+      this.ids = this.ids.filter(it => it.id !== id);
+    } else {
+      this.ids.forEach(it => it.callback());
+      this.ids = [];
+    }
+  }
+};
 
 const filter = (ar: JSX.Element[], id: number) =>
   ar.filter((it: JSX.Element) => it.key != id);
@@ -9,9 +53,13 @@ const Notification = ({
   message,
   onClose,
   type = "info",
-  width = "300px"
+  width = "300px",
+  rtl
 }: any) => (
-  <div className={`item ${type}`} style={{ width }}>
+  <div
+    className={`item ${type}`}
+    style={{ width, direction: rtl ? "rtl" : "ltr" }}
+  >
     <span>{message}</span>
     <button onClick={onClose}>✖</button>
   </div>
@@ -53,7 +101,10 @@ export default (props: Config & { id: number; cleared: () => void }) => {
       );
     }
 
-    items.current = [newItem, ...(props.onlyLast ? [] : items.current)];
+    const rest = props.onlyLast ? [] : items.current;
+    const { newestOnTop = true } = props;
+    items.current = newestOnTop ? [newItem, ...rest] : [...rest, newItem];
+
     eventManager.add(id, () => removeItemById(id));
 
     setTimeout(() => setItems(items.current), delay);
