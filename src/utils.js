@@ -5,6 +5,14 @@ export const getPrintedCode = (options, n = 1, avoidQuotes) => {
     delete options.animation;
   }
 
+  if (!options.in) {
+    delete options.in;
+  }
+
+  if (!options.out) {
+    delete options.out;
+  }
+
   let { length } = Object.keys(options);
   let i = 0;
   for (let k in options) {

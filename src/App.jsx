@@ -113,16 +113,22 @@ const RouteInfo = ({ header, onClosePanel }) => (
   </div>
 );
 
+const defaultAnimation = {
+  in: "fadeIn",
+  out: "fadeOut",
+  duration: 400
+};
+
 const App = () => {
   const [type, setType] = useState("success");
   const [options, setOptions] = useState({
-    autoClose: 2000,
+    autoClose: 3000,
     position: "top-right",
     delay: 0,
     onlyLast: false,
-    animation: false,
     rtl: false,
-    newestOnTop: true
+    newestOnTop: true,
+    animation: defaultAnimation
   });
   const [animationEnabled, setAnimation] = useState(options.animation);
 
@@ -135,7 +141,8 @@ const App = () => {
     delay,
     animation,
     rtl,
-    newestOnTop
+    newestOnTop,
+    pauseOnHover
   } = options;
 
   return (
@@ -249,6 +256,25 @@ const App = () => {
             <div className="item">
               <label className="checkbox">
                 <span style={{ height: "20px", lineHeight: "20px" }}>
+                  pauseOnHover
+                </span>
+                <input
+                  type="checkbox"
+                  checked={pauseOnHover}
+                  value={delay}
+                  onChange={() => {
+                    setOptions({
+                      ...options,
+                      pauseOnHover: !pauseOnHover
+                    });
+                  }}
+                />
+              </label>
+            </div>
+
+            <div className="item">
+              <label className="checkbox">
+                <span style={{ height: "20px", lineHeight: "20px" }}>
                   onlyLast
                 </span>
                 <input
@@ -313,13 +339,7 @@ const App = () => {
                   setAnimation(!animationEnabled);
                   setOptions({
                     ...options,
-                    animation: !animationEnabled
-                      ? {
-                          in: "fadeIn",
-                          out: "fadeOut",
-                          duration: animation.duration || 600
-                        }
-                      : false
+                    animation: animation ? false : defaultAnimation
                   });
                 }}
               />
@@ -332,13 +352,13 @@ const App = () => {
                   <input
                     className="input"
                     type="number"
-                    value={animation.duration}
+                    value={(animation || defaultAnimation).duration}
                     onChange={({ target }) => {
                       setOptions({
                         ...options,
                         animation: {
-                          in: "fadeIn",
-                          out: "fadeOut",
+                          in: (animation || defaultAnimation).in,
+                          out: (animation || defaultAnimation).out,
                           duration: +target.value
                         }
                       });
@@ -358,12 +378,13 @@ const App = () => {
                         ...options,
                         animation: {
                           ...animation,
-                          in: target.value
+                          in: target.value || false
                         }
                       });
                     }}
-                    value={animation.in}
+                    value={(animation || defaultAnimation).in}
                   >
+                    <option value="">None</option>
                     <option value="fadeIn">fadeIn</option>
                     <option value="zoomIn">zoomIn</option>
                   </select>
@@ -381,12 +402,13 @@ const App = () => {
                         ...options,
                         animation: {
                           ...animation,
-                          out: target.value
+                          out: target.value || false
                         }
                       });
                     }}
-                    value={animation.out}
+                    value={(animation || defaultAnimation).out}
                   >
+                    <option value="">None</option>
                     <option value="fadeOut">fadeOut</option>
                     <option value="zoomOut">zoomOut</option>
                   </select>
