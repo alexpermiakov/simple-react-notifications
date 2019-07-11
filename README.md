@@ -141,7 +141,7 @@ notifier.configure({
   position: "top-center",
   delay: 500,
   single: false,
-  containerWidth: "480px"
+  width: "480px"
 });
 
 const App = () => (

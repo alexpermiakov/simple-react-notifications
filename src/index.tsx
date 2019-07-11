@@ -18,8 +18,8 @@ export type Config = {
   autoClose?: number;
   delay?: number;
   render?: any;
-  single?: boolean;
-  containerWidth?: string;
+  onlyLast?: boolean;
+  width?: string;
   animation?: Animation;
 };
 
@@ -51,12 +51,11 @@ let globalCfg: Config;
 
 const notifier = (cfg?: Config) => {
   cfg = { ...(globalCfg || {}), ...cfg };
-  const { position = "top-right", containerWidth = "320px" } = cfg;
+  const { position = "top-right" } = cfg;
   let modalRoot = document.querySelector("." + cls + "." + position);
   if (!modalRoot) {
     modalRoot = document.createElement("div");
     modalRoot.classList.add(cls, position);
-    (modalRoot as HTMLElement).style.width = containerWidth;
     document.body.appendChild(modalRoot);
   }
 

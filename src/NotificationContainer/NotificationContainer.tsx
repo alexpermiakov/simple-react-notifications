@@ -5,8 +5,13 @@ import "./styles.css";
 const filter = (ar: JSX.Element[], id: number) =>
   ar.filter((it: JSX.Element) => it.key != id);
 
-const Notification = ({ message, onClose, type = "info" }: any) => (
-  <div className={`item ${type}`}>
+const Notification = ({
+  message,
+  onClose,
+  type = "info",
+  width = "300px"
+}: any) => (
+  <div className={`item ${type}`} style={{ width }}>
     <span>{message}</span>
     <button onClick={onClose}>✖</button>
   </div>
@@ -48,11 +53,15 @@ export default (props: Config & { id: number; cleared: () => void }) => {
       );
     }
 
-    items.current = [newItem, ...(props.single ? [] : items.current)];
+    items.current = [newItem, ...(props.onlyLast ? [] : items.current)];
     eventManager.add(id, () => removeItemById(id));
 
     setTimeout(() => setItems(items.current), delay);
-    setTimeout(() => removeItemById(id), delay + autoClose + animationDuration);
+    autoClose &&
+      setTimeout(
+        () => removeItemById(id),
+        delay + autoClose + animationDuration
+      );
   }, [props]);
 
   return <>{...items.current}</>;
