@@ -209,7 +209,7 @@ const App = () => {
 
             {type === "custom" && (
               <div className="item">
-                <span>Component</span>
+                <span>Demo component</span>
                 <textarea className="textarea" disabled={true}>
                   {componentExample}
                 </textarea>
