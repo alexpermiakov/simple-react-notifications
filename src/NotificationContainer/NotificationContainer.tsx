@@ -36,11 +36,11 @@ export const eventManager = {
   },
   remove: function(id?: number) {
     if (id) {
-      const { callback } = this.ids.find(it => it.id === id)!;
+      const { callback } = this.ids.find((it: any) => it.id === id)!;
       callback();
-      this.ids = this.ids.filter(it => it.id !== id);
+      this.ids = this.ids.filter((it: any) => it.id !== id);
     } else {
-      this.ids.forEach(it => it.callback());
+      this.ids.forEach((it: any) => it.callback());
       this.ids = [];
     }
   }
@@ -54,16 +54,43 @@ const Notification = ({
   onClose,
   type = "info",
   width = "300px",
-  rtl
+  rtl,
+  closeOnClick,
+  mouseover,
+  mouseout
 }: any) => (
   <div
     className={`item ${type}`}
     style={{ width, direction: rtl ? "rtl" : "ltr" }}
+    onClick={() => closeOnClick && onClose()}
+    onMouseOver={mouseover}
+    onMouseOut={mouseout}
   >
     <span>{message}</span>
     <button onClick={onClose}>✖</button>
   </div>
 );
+
+const timers: any = {};
+
+function Timer(callback: Function, delay: number) {
+  let timerId = 0,
+    start = 0,
+    remaining = delay;
+
+  this.pause = () => {
+    window.clearTimeout(timerId);
+    remaining -= Date.now() - start;
+  };
+
+  this.resume = () => {
+    start = Date.now();
+    window.clearTimeout(timerId);
+    timerId = window.setTimeout(callback, remaining);
+  };
+
+  this.resume();
+}
 
 export default (props: Config & { id: number; cleared: () => void }) => {
   const [, setItems] = useState([] as JSX.Element[]);
@@ -81,7 +108,13 @@ export default (props: Config & { id: number; cleared: () => void }) => {
     let newItem = props.render ? (
       props.render(params)
     ) : (
-      <Notification {...props} {...params} key={id} />
+      <Notification
+        {...props}
+        {...params}
+        key={id}
+        mouseover={() => props.pauseOnHover && timers[id].pause()}
+        mouseout={() => props.pauseOnHover && timers[id].resume()}
+      />
     );
     const { animation = {} } = props;
     const animationDuration = animation.duration || 300;
@@ -108,11 +141,12 @@ export default (props: Config & { id: number; cleared: () => void }) => {
     eventManager.add(id, () => removeItemById(id));
 
     setTimeout(() => setItems(items.current), delay);
-    autoClose &&
-      setTimeout(
+    if (autoClose) {
+      timers[id] = new (Timer as any)(
         () => removeItemById(id),
         delay + autoClose + animationDuration
       );
+    }
   }, [props]);
 
   return <>{...items.current}</>;
