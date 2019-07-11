@@ -41,14 +41,14 @@ const Settings = styled.section.attrs({ className: "columns" })`
       line-height: 36px;
       height: 36px;
       display: inline-block;
-      width: 130px;
+      width: 150px;
     }
   }
   .input {
-    width: 130px;
+    width: 150px;
   }
   .select select {
-    width: 130px;
+    width: 150px;
   }
   .textarea {
     height: 250px;
@@ -61,7 +61,7 @@ const H3 = styled.h3`
   margin-bottom: 12px;
 `;
 
-const message = "You have a new message.";
+const message = "You have new messages: ";
 
 const getConfigureExample = options =>
   "notifier.configure({\n" + getPrintedCode(options) + "});";
@@ -196,6 +196,9 @@ const App = () => {
                   <option value="top-left">top-left</option>
                   <option value="top-center">top-center</option>
                   <option value="top-right">top-right</option>
+                  <option value="bottom-left">bottom-left</option>
+                  <option value="bottom-center">bottom-center</option>
+                  <option value="bottom-right">bottom-right</option>
                 </select>
               </div>
             </div>
