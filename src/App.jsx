@@ -120,13 +120,23 @@ const App = () => {
     position: "top-right",
     delay: 0,
     onlyLast: false,
-    animation: false
+    animation: false,
+    rtl: false,
+    newestOnTop: true
   });
   const [animationEnabled, setAnimation] = useState(options.animation);
 
   useEffect(() => notifier.configure(options), [options]);
 
-  const { position, autoClose, onlyLast, delay, animation } = options;
+  const {
+    position,
+    autoClose,
+    onlyLast,
+    delay,
+    animation,
+    rtl,
+    newestOnTop
+  } = options;
 
   return (
     <>
@@ -144,7 +154,7 @@ const App = () => {
               className="button is-primary"
               onClick={() => {
                 if (type === "success" || type === "error") {
-                  notifier[type](message);
+                  notifier[type](message + new Date().getSeconds());
                 } else {
                   notifier({
                     render: ({ id, onClose }) => (
@@ -249,6 +259,42 @@ const App = () => {
                     setOptions({
                       ...options,
                       onlyLast: !onlyLast
+                    });
+                  }}
+                />
+              </label>
+            </div>
+
+            <div className="item">
+              <label className="checkbox">
+                <span style={{ height: "20px", lineHeight: "20px" }}>
+                  newestOnTop
+                </span>
+                <input
+                  type="checkbox"
+                  checked={newestOnTop}
+                  value={delay}
+                  onChange={() => {
+                    setOptions({
+                      ...options,
+                      newestOnTop: !newestOnTop
+                    });
+                  }}
+                />
+              </label>
+            </div>
+
+            <div className="item">
+              <label className="checkbox">
+                <span style={{ height: "20px", lineHeight: "20px" }}>rtl</span>
+                <input
+                  type="checkbox"
+                  checked={rtl}
+                  value={delay}
+                  onChange={() => {
+                    setOptions({
+                      ...options,
+                      rtl: !rtl
                     });
                   }}
                 />
