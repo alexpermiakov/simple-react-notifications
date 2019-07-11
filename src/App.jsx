@@ -119,14 +119,14 @@ const App = () => {
     autoClose: 2000,
     position: "top-right",
     delay: 0,
-    single: false,
+    onlyLast: false,
     animation: false
   });
   const [animationEnabled, setAnimation] = useState(options.animation);
 
   useEffect(() => notifier.configure(options), [options]);
 
-  const { position, autoClose, single, delay, animation } = options;
+  const { position, autoClose, onlyLast, delay, animation } = options;
 
   return (
     <>
@@ -243,12 +243,12 @@ const App = () => {
                 </span>
                 <input
                   type="checkbox"
-                  checked={single}
+                  checked={onlyLast}
                   value={delay}
                   onChange={() => {
                     setOptions({
                       ...options,
-                      single: !single
+                      onlyLast: !onlyLast
                     });
                   }}
                 />
