@@ -56,15 +56,15 @@ const Notification = ({
   width = "300px",
   rtl,
   closeOnClick,
-  mouseover,
-  mouseout
+  mouseEnter,
+  mouseLeave
 }: any) => (
   <div
     className={`item ${type}`}
     style={{ width, direction: rtl ? "rtl" : "ltr" }}
     onClick={() => closeOnClick && onClose()}
-    onMouseOver={mouseover}
-    onMouseOut={mouseout}
+    onMouseEnter={mouseEnter}
+    onMouseLeave={mouseLeave}
   >
     <span>{message}</span>
     <button onClick={onClose}>✖</button>
@@ -74,19 +74,19 @@ const Notification = ({
 const timers: any = {};
 
 function Timer(callback: Function, delay: number) {
-  let timerId = 0,
+  let timerId = -1,
     start = 0,
     remaining = delay;
 
   this.pause = () => {
-    window.clearTimeout(timerId);
+    clearTimeout(timerId);
     remaining -= Date.now() - start;
   };
 
   this.resume = () => {
     start = Date.now();
-    window.clearTimeout(timerId);
-    timerId = window.setTimeout(callback, remaining);
+    clearTimeout(timerId);
+    timerId = setTimeout(callback, remaining);
   };
 
   this.resume();
@@ -104,17 +104,19 @@ export default (props: Config & { id: number; cleared: () => void }) => {
   };
 
   useEffect(() => {
-    const params = { id, onClose: () => removeItemById(id) };
+    const params = {
+      id,
+      onClose: () => removeItemById(id),
+      mouseEnter: () => f("pause"),
+      mouseLeave: () => f("resume")
+    };
+    const f = (action: string) =>
+      props.pauseOnHover && timers[id] && timers[id][action]();
+
     let newItem = props.render ? (
       props.render(params)
     ) : (
-      <Notification
-        {...props}
-        {...params}
-        key={id}
-        mouseover={() => props.pauseOnHover && timers[id].pause()}
-        mouseout={() => props.pauseOnHover && timers[id].resume()}
-      />
+      <Notification {...props} {...params} key={id} />
     );
     const { animation = {} } = props;
     const animationDuration = animation.duration || 300;
