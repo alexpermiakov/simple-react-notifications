@@ -1,5 +1,9 @@
 # Simple-React-Notifications
 
+## Demo
+
+https://alexpermyakov.github.io/simple-react-notifications/
+
 Tiny library (only 1kb gzip) that allows you to add notifications to your app.
 We don't want to blow up our bundle size because of notifications, right?
 
