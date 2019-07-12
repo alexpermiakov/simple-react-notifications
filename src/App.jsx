@@ -61,7 +61,7 @@ const H3 = styled.h3`
   margin-bottom: 12px;
 `;
 
-const message = "You have new messages: ";
+const message = "The number of meetings you have next week:  ";
 
 const getConfigureExample = options =>
   "notifier.configure({\n" + getPrintedCode(options) + "});";
@@ -123,10 +123,13 @@ const App = () => {
   const [type, setType] = useState("success");
   const [options, setOptions] = useState({
     autoClose: 3000,
+    width: 275,
     position: "top-right",
     delay: 0,
+    closeOnClick: false,
+    pauseOnHover: false,
     onlyLast: false,
-    rtl: false,
+    // rtl: false,
     newestOnTop: true,
     animation: defaultAnimation
   });
@@ -140,9 +143,11 @@ const App = () => {
     onlyLast,
     delay,
     animation,
-    rtl,
+    // rtl,
     newestOnTop,
-    pauseOnHover
+    pauseOnHover,
+    closeOnClick,
+    width
   } = options;
 
   return (
@@ -160,9 +165,7 @@ const App = () => {
             <button
               className="button is-primary"
               onClick={() => {
-                if (type === "success" || type === "error") {
-                  notifier[type](message + new Date().getSeconds());
-                } else {
+                if (type === "custom") {
                   notifier({
                     render: ({ id, onClose }) => (
                       <RouteInfo
@@ -172,6 +175,8 @@ const App = () => {
                       />
                     )
                   });
+                } else {
+                  notifier[type](message + new Date().getSeconds());
                 }
               }}
             >
@@ -212,6 +217,7 @@ const App = () => {
                 >
                   <option value="success">success</option>
                   <option value="error">error</option>
+                  <option value="info">info</option>
                   <option value="custom">custom</option>
                 </select>
               </div>
@@ -236,6 +242,21 @@ const App = () => {
                   setOptions({
                     ...options,
                     autoClose: target.value ? +target.value : false
+                  });
+                }}
+              />
+            </div>
+
+            <div className="item">
+              <span>width</span>
+              <input
+                className="input"
+                type="number"
+                value={width}
+                onChange={({ target }) => {
+                  setOptions({
+                    ...options,
+                    width: +target.value
                   });
                 }}
               />
@@ -269,6 +290,25 @@ const App = () => {
                     setOptions({
                       ...options,
                       pauseOnHover: !pauseOnHover
+                    });
+                  }}
+                />
+              </label>
+            </div>
+
+            <div className="item">
+              <label className="checkbox">
+                <span style={{ height: "20px", lineHeight: "20px" }}>
+                  closeOnClick
+                </span>
+                <input
+                  type="checkbox"
+                  checked={closeOnClick}
+                  value={delay}
+                  onChange={() => {
+                    setOptions({
+                      ...options,
+                      closeOnClick: !closeOnClick
                     });
                   }}
                 />
@@ -313,7 +353,7 @@ const App = () => {
               </label>
             </div>
 
-            <div className="item">
+            {/* <div className="item">
               <label className="checkbox">
                 <span style={{ height: "20px", lineHeight: "20px" }}>rtl</span>
                 <input
@@ -328,7 +368,7 @@ const App = () => {
                   }}
                 />
               </label>
-            </div>
+            </div> */}
 
             <div className="item">
               <span style={{ height: "20px", lineHeight: "20px" }}>
