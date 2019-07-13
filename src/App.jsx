@@ -129,7 +129,7 @@ const App = () => {
     closeOnClick: false,
     pauseOnHover: false,
     onlyLast: false,
-    // rtl: false,
+    rtl: false,
     newestOnTop: true,
     animation: defaultAnimation
   });
@@ -143,7 +143,7 @@ const App = () => {
     onlyLast,
     delay,
     animation,
-    // rtl,
+    rtl,
     newestOnTop,
     pauseOnHover,
     closeOnClick,
@@ -353,7 +353,7 @@ const App = () => {
               </label>
             </div>
 
-            {/* <div className="item">
+            <div className="item">
               <label className="checkbox">
                 <span style={{ height: "20px", lineHeight: "20px" }}>rtl</span>
                 <input
@@ -368,7 +368,7 @@ const App = () => {
                   }}
                 />
               </label>
-            </div> */}
+            </div>
 
             <div className="item">
               <span style={{ height: "20px", lineHeight: "20px" }}>
