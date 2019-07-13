@@ -120,6 +120,7 @@ export default (props: Config & { id: number; cleared: () => void }) => {
     );
     const { animation = {} } = props;
     const animationDuration = animation.duration || 300;
+    const closeTime = autoClose ? autoClose : 1e9;
 
     if (animation.in || animation.out) {
       newItem = (
@@ -127,7 +128,7 @@ export default (props: Config & { id: number; cleared: () => void }) => {
           key={id}
           style={{
             animationName: `${animation.in}, ${animation.out}`,
-            animationDelay: `0ms, ${delay + autoClose}ms`,
+            animationDelay: `0ms, ${delay + closeTime}ms`,
             animationDuration: `${animationDuration}ms, ${animationDuration}ms`
           }}
         >
