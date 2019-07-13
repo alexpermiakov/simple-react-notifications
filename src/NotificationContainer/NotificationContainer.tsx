@@ -60,8 +60,8 @@ const Notification = ({
   mouseLeave
 }: any) => (
   <div
-    className={`item ${type}`}
-    style={{ width, direction: rtl ? "rtl" : "ltr" }}
+    className={`item ${type} ${rtl ? "rtl" : "ltr"}`}
+    style={{ width }}
     onClick={() => closeOnClick && onClose()}
     onMouseEnter={mouseEnter}
     onMouseLeave={mouseLeave}
