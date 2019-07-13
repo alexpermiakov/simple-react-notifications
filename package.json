@@ -1,6 +1,6 @@
 {
   "name": "simple-react-notifications",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "Tiny react.js notification library (1kb gzip).",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -46,6 +46,7 @@
     "type": "git",
     "url": "git+https://github.com/alexpermyakov/simple-react-notifier.git"
   },
+  "homepage": "https://alexpermyakov.github.io/simple-react-notification",
   "devDependencies": {
     "@types/enzyme": "^3.9.4",
     "@types/enzyme-adapter-react-16": "^1.0.5",
