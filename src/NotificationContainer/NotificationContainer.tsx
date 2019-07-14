@@ -56,15 +56,15 @@ const Notification = ({
   width = "300px",
   rtl,
   closeOnClick,
-  mouseEnter,
-  mouseLeave
+  onMouseEnter,
+  onMouseLeave
 }: any) => (
   <div
     className={`item ${type} ${rtl ? "rtl" : "ltr"}`}
     style={{ width }}
     onClick={() => closeOnClick && onClose()}
-    onMouseEnter={mouseEnter}
-    onMouseLeave={mouseLeave}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
   >
     <span>{message}</span>
     <button onClick={onClose}>✖</button>
@@ -95,6 +95,7 @@ function Timer(callback: Function, delay: number) {
 export default (props: Config & { id: number; cleared: () => void }) => {
   const [, setItems] = useState([] as JSX.Element[]);
   const [hovered, setHovered] = useState(false);
+  const [dismissedByClick, setDismissedByClick] = useState(false);
   const items = useRef([] as JSX.Element[]);
   const { autoClose = 3000, delay = 0, id } = props;
   const { animation = {} } = props;
@@ -115,13 +116,14 @@ export default (props: Config & { id: number; cleared: () => void }) => {
     }
 
     const t = timers[id].remaining;
-    const style = hovered
-      ? {}
-      : {
-          animationName: `${animation.out}`,
-          animationDelay: `${t - animationDuration}ms`,
-          animationDuration: `${animationDuration}ms`
-        };
+    const style =
+      hovered && !dismissedByClick
+        ? {}
+        : {
+            animationName: `${animation.out}`,
+            animationDelay: `${t - animationDuration}ms`,
+            animationDuration: `${animationDuration}ms`
+          };
 
     const cloned = React.cloneElement(el, {
       ...el.props,
@@ -130,14 +132,18 @@ export default (props: Config & { id: number; cleared: () => void }) => {
 
     items.current.splice(index, 1, cloned);
     setItems([...items.current]);
-  }, [hovered]);
+  }, [hovered, dismissedByClick]);
 
   useEffect(() => {
     const params = {
       id,
-      onClose: () => removeItemById(id),
-      mouseEnter: () => f("pause"),
-      mouseLeave: () => f("resume")
+      onClose: () => {
+        setTimeout(() => removeItemById(id), animationDuration);
+        timers[id].remaining = animationDuration;
+        setDismissedByClick(true);
+      },
+      onMouseEnter: () => f("pause"),
+      onMouseLeave: () => f("resume")
     };
 
     const f = (action: string) => {
@@ -148,10 +154,10 @@ export default (props: Config & { id: number; cleared: () => void }) => {
     let newItem = props.render ? (
       props.render(params)
     ) : (
-      <Notification {...props} {...params} key={id} />
+      <Notification {...props} {...params} />
     );
 
-    if (animation.in || animation.out) {
+    if (animationDuration) {
       newItem = (
         <div
           key={id}
@@ -169,16 +175,14 @@ export default (props: Config & { id: number; cleared: () => void }) => {
     const rest = props.onlyLast ? [] : items.current;
     const { newestOnTop = true } = props;
     items.current = newestOnTop ? [newItem, ...rest] : [...rest, newItem];
-
     eventManager.add(id, () => removeItemById(id));
 
     setTimeout(() => setItems(items.current), delay);
-    if (autoClose) {
-      timers[id] = new (Timer as any)(
-        () => removeItemById(id),
-        delay + autoClose + animationDuration
-      );
-    }
+
+    timers[id] = new (Timer as any)(
+      () => autoClose && removeItemById(id),
+      delay + autoClose + animationDuration
+    );
   }, [props]);
 
   return <>{...items.current}</>;

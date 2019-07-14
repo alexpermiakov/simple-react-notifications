@@ -9,6 +9,7 @@
 
 .simple-react-notifier > * {
   pointer-events: initial;
+  animation-fill-mode: forwards;
 }
 
 .simple-react-notifier.top-left {
