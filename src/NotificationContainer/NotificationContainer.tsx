@@ -75,18 +75,18 @@ const timers: any = {};
 
 function Timer(callback: Function, delay: number) {
   let timerId = -1,
-    start = 0,
-    remaining = delay;
+    start = 0;
+  this.remaining = delay;
 
   this.pause = () => {
     clearTimeout(timerId);
-    remaining -= Date.now() - start;
+    this.remaining -= Date.now() - start;
   };
 
   this.resume = () => {
     start = Date.now();
     clearTimeout(timerId);
-    timerId = setTimeout(callback, remaining);
+    timerId = setTimeout(callback, this.remaining);
   };
 
   this.resume();
@@ -94,8 +94,12 @@ function Timer(callback: Function, delay: number) {
 
 export default (props: Config & { id: number; cleared: () => void }) => {
   const [, setItems] = useState([] as JSX.Element[]);
+  const [hovered, setHovered] = useState(false);
   const items = useRef([] as JSX.Element[]);
   const { autoClose = 3000, delay = 0, id } = props;
+  const { animation = {} } = props;
+  const animationDuration = animation.duration || 300;
+  const closeTime = autoClose ? autoClose : 1e9;
 
   const removeItemById = (id: number) => {
     items.current = filter(items.current, id);
@@ -104,23 +108,48 @@ export default (props: Config & { id: number; cleared: () => void }) => {
   };
 
   useEffect(() => {
+    const index = items.current.findIndex((it: JSX.Element) => it.key == id);
+    const el = items.current[index];
+    if (!el) {
+      return;
+    }
+
+    const t = timers[id].remaining;
+    const style = hovered
+      ? {}
+      : {
+          animationName: `${animation.out}`,
+          animationDelay: `${t - animationDuration}ms`,
+          animationDuration: `${animationDuration}ms`
+        };
+
+    const cloned = React.cloneElement(el, {
+      ...el.props,
+      style
+    });
+
+    items.current.splice(index, 1, cloned);
+    setItems([...items.current]);
+  }, [hovered]);
+
+  useEffect(() => {
     const params = {
       id,
       onClose: () => removeItemById(id),
       mouseEnter: () => f("pause"),
       mouseLeave: () => f("resume")
     };
-    const f = (action: string) =>
+
+    const f = (action: string) => {
       props.pauseOnHover && timers[id] && timers[id][action]();
+      setHovered(action === "pause");
+    };
 
     let newItem = props.render ? (
       props.render(params)
     ) : (
       <Notification {...props} {...params} key={id} />
     );
-    const { animation = {} } = props;
-    const animationDuration = animation.duration || 300;
-    const closeTime = autoClose ? autoClose : 1e9;
 
     if (animation.in || animation.out) {
       newItem = (
