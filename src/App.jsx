@@ -51,7 +51,9 @@ const Settings = styled.section.attrs({ className: "columns" })`
     width: 150px;
   }
   .textarea {
-    height: 250px;
+    height: 290px;
+    font-size: 14px;
+    color: black;
     cursor: default !important;
   }
 `;
@@ -81,8 +83,13 @@ const getCustomComponent = options => {
 ${getPrintedCode(options, 1, true)}})`;
 };
 
-const componentExample = `const RouteInfo = ({(header, onClosePanel)}) => (
-  <div className="route-info" onClick={onClosePanel}>
+const componentExample = `const RouteInfo = ({(header, onClose, onEnter, onLeave)}) => (
+  <div
+    className="route-info"
+    onClick={onClose}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
+  >
     <h3>{header}</h3>
     <p>Bicycle 2.4 km, 8 min.</p>
     <p>Use caution - may involve sections not suited for bicycling</p>
@@ -90,10 +97,12 @@ const componentExample = `const RouteInfo = ({(header, onClosePanel)}) => (
   </div>
   );`;
 
-const RouteInfo = ({ header, onClosePanel }) => (
+const RouteInfo = ({ header, onClosePanel, onMouseEnter, onMouseLeave }) => (
   <div
     className="route-info"
     onClick={onClosePanel}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
     style={{
       height: "200px",
       background: "#54cea7",
@@ -128,8 +137,8 @@ const App = () => {
     width: 275,
     position: "top-right",
     delay: 0,
-    closeOnClick: false,
-    pauseOnHover: false,
+    closeOnClick: true,
+    pauseOnHover: true,
     onlyLast: false,
     rtl: false,
     newestOnTop: true,
@@ -169,10 +178,12 @@ const App = () => {
               onClick={() => {
                 if (type === "custom") {
                   notifier({
-                    render: ({ id, onClose }) => (
+                    render: ({ id, onClose, onMouseEnter, onMouseLeave }) => (
                       <RouteInfo
                         key={id}
                         onClosePanel={onClose}
+                        onMouseEnter={onMouseEnter}
+                        onMouseLeave={onMouseLeave}
                         header={"The shortest way to ride home."}
                       />
                     )
@@ -228,9 +239,11 @@ const App = () => {
             {type === "custom" && (
               <div className="item">
                 <span>Demo component</span>
-                <textarea className="textarea" disabled={true}>
-                  {componentExample}
-                </textarea>
+                <textarea
+                  className="textarea"
+                  disabled={true}
+                  defaultValue={componentExample}
+                />
               </div>
             )}
 
