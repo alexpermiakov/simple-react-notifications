@@ -54,30 +54,32 @@ The real power comes with rendering our own component. In this case it's not eve
 
 ```javascript
 const RouteInfo = ({ header, onClosePanel }) => (
-  <div className="route-info" onClick={onClosePanel}>
-    <h3>{header}</h3>
-    <p>
-      Bicycle 2.4 km, 8 min. Use caution - may involve errors or sections not
-      suited for bicycling
-    </p>
+  <div
+    className="route-info"
+    onClick={onClosePanel}
+    style={{
+      height: "200px",
+      background: "#54cea7",
+      color: "white",
+      padding: "8px 16px",
+      position: "relative",
+      boxShadow: "rgba(0, 0, 0, 1) 0px 0px 14px 2px"
+    }}
+  >
+    <h3 className="subtitle">{header}</h3>
+    <p>Bicycle 2.4 km, 8 min.</p>
+    <p>Use caution - may involve errors or sections not suited for bicycling</p>
+    <button
+      className="button"
+      style={{ position: "absolute", bottom: "16px", right: "16px" }}
+    >
+      Use this route
+    </button>
   </div>
 );
 ```
 
-Put the css below in your .css file. It completely up to us the way we add styles. We can use styled-components or whatever we like. The notify() method will just render it.
-
-```css
-.route-info {
-  height: 400px;
-  background: white;
-  color: black;
-  padding: 8px 16px;
-  position: relative;
-  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
-}
-```
-
-And now we can use it like this:
+It completely up to us the way we add styles. We can use styled-components or whatever we like. The notify() method will just render it:
 
 ```javascript
 const App = () => (
