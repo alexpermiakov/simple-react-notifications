@@ -8,7 +8,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
-    "simple-react-notifications": "^1.2.7",
+    "simple-react-notifications": "^1.2.10",
     "styled-components": "^4.3.2"
   },
   "scripts": {
