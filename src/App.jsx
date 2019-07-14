@@ -84,13 +84,9 @@ ${getPrintedCode(options, 1, true)}})`;
 const componentExample = `const RouteInfo = ({(header, onClosePanel)}) => (
   <div className="route-info" onClick={onClosePanel}>
     <h3>{header}</h3>
-    <p>
-      Bicycle 2.4 km, 8 min.
-    </p>
-    <p>
-      Use caution - may involve errors or
-      sections not suited for bicycling
-    </p>
+    <p>Bicycle 2.4 km, 8 min.</p>
+    <p>Use caution - may involve sections not suited for bicycling</p>
+    <button className="button">Use this route</button>
   </div>
   );`;
 
@@ -99,17 +95,23 @@ const RouteInfo = ({ header, onClosePanel }) => (
     className="route-info"
     onClick={onClosePanel}
     style={{
-      height: "250px",
-      background: "white",
-      color: "black",
+      height: "200px",
+      background: "#54cea7",
+      color: "white",
       padding: "8px 16px",
       position: "relative",
-      boxShadow: "0 1px 10px 0 rgba(0, 0, 0, 0.1)"
+      boxShadow: "rgba(0, 0, 0, 1) 0px 0px 14px 2px"
     }}
   >
     <h3 className="subtitle">{header}</h3>
     <p>Bicycle 2.4 km, 8 min.</p>
     <p>Use caution - may involve errors or sections not suited for bicycling</p>
+    <button
+      className="button"
+      style={{ position: "absolute", bottom: "16px", right: "16px" }}
+    >
+      Use this route
+    </button>
   </div>
 );
 
