@@ -128,7 +128,7 @@ export default (props: Config & { id: number; cleared: () => void }) => {
           key={id}
           style={{
             animationName: `${animation.in}, ${animation.out}`,
-            animationDelay: `0ms, ${delay + closeTime}ms`,
+            animationDelay: `0ms, ${closeTime}ms`,
             animationDuration: `${animationDuration}ms, ${animationDuration}ms`
           }}
         >
