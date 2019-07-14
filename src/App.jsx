@@ -72,21 +72,22 @@ const getNotificationExample = options =>
   `notifier.success("${message}", {\n${getPrintedCode(options)}});`;
 
 const getCustomComponent = options => {
-  options.render = `({ id, onClose }) => (
+  options.render = `({ id, onClose, onMouseEnter, onMouseLeave }) => (
     <RouteInfo
       key={id}
       onClosePanel={onClose}
       header={"The shortest way to ride home."}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     />
   )`;
   return `notifier({
 ${getPrintedCode(options, 1, true)}})`;
 };
 
-const componentExample = `const RouteInfo = ({(header, onClose, onEnter, onLeave)}) => (
+const componentExample = `let RouteInfo = ({(header, onMouseEnter, onMouseLeave)}) => (
   <div
     className="route-info"
-    onClick={onClose}
     onMouseEnter={onMouseEnter}
     onMouseLeave={onMouseLeave}
   >
