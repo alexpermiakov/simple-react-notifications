@@ -1,6 +1,6 @@
 {
   "name": "simple-react-notifications",
-  "version": "1.2.13",
+  "version": "1.2.14",
   "description": "Tiny react.js notification library (1kb gzip).",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -44,7 +44,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alexpermyakov/simple-react-notifier.git"
+    "url": "git+https://github.com/alexpermyakov/simple-react-notifications.git"
   },
   "homepage": "https://alexpermyakov.github.io/simple-react-notifications",
   "devDependencies": {
