@@ -111,10 +111,10 @@ export default (props: Config & { id: number; cleared: () => void }) => {
   const [hovered, setHovered] = useState(false);
   const [dismissedByClick, setDismissedByClick] = useState(false);
   const items = useRef([] as JSX.Element[]);
-  const { autoClose, delay = 0, id } = props;
+  const { autoClose = 3000, delay = 0, id } = props;
   const { animation = {} } = props;
   const animationDuration = animation.duration || 300;
-  const closeTime = autoClose !== undefined && autoClose > 0 ? autoClose : 0;
+  const closeTime = autoClose > 0 ? autoClose : 0;
 
   const removeItemById = (id: number) => {
     items.current = filter(items.current, id);
