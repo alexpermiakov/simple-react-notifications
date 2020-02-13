@@ -8,13 +8,20 @@ type Animation = {
   timingFunction?: string;
 };
 
+export interface RenderProps {
+  id: number;
+  onClose: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+}
+
 export type Config = {
   message?: string;
   type?: string;
   position?: string;
   autoClose?: number;
   delay?: number;
-  render?: any;
+  render?: (props: RenderProps) => any;
   onlyLast?: boolean;
   width?: string;
   animation?: Animation;
@@ -71,25 +78,32 @@ const Notification = ({
   </div>
 );
 
-const timers: any = {};
 
-function Timer(callback: Function, delay: number) {
-  let timerId = -1,
+const timers: {[id: number]: Timer} = {};
+
+class Timer {
+  public remaining: number;
+  public resume: () => void;
+  public pause: () => void;
+
+  constructor(callback: Function, delay: number) {
+    let timerId = -1,
     start = 0;
-  this.remaining = delay;
+    this.remaining = delay;
 
-  this.pause = () => {
-    clearTimeout(timerId);
-    this.remaining -= Date.now() - start;
-  };
+    this.pause = () => {
+      clearTimeout(timerId);
+      this.remaining -= Date.now() - start;
+    };
 
-  this.resume = () => {
-    start = Date.now();
-    clearTimeout(timerId);
-    timerId = setTimeout(callback, this.remaining);
-  };
+    this.resume = () => {
+      start = Date.now();
+      clearTimeout(timerId);
+      timerId = setTimeout(callback, this.remaining);
+    };
 
-  this.resume();
+    this.resume();
+  }
 }
 
 export default (props: Config & { id: number; cleared: () => void }) => {
@@ -100,7 +114,7 @@ export default (props: Config & { id: number; cleared: () => void }) => {
   const { autoClose = 3000, delay = 0, id } = props;
   const { animation = {} } = props;
   const animationDuration = animation.duration || 300;
-  const closeTime = autoClose ? autoClose : 1e9;
+  const closeTime = autoClose > 0 ? autoClose : 0;
 
   const removeItemById = (id: number) => {
     items.current = filter(items.current, id);
@@ -179,9 +193,9 @@ export default (props: Config & { id: number; cleared: () => void }) => {
 
     setTimeout(() => setItems(items.current), delay);
 
-    timers[id] = new (Timer as any)(
+    timers[id] = new Timer(
       () => autoClose && removeItemById(id),
-      delay + autoClose + animationDuration
+      delay + closeTime + animationDuration
     );
   }, [props]);
 
