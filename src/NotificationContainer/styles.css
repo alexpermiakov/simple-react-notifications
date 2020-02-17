@@ -86,6 +86,11 @@
   border-left: 8px solid #ac1f2d;
 }
 
+.simple-react-notifier .item.warn {
+  background: #ffd9bc;
+  border-left: 8px solid #ffb366;
+}
+
 .simple-react-notifier .item.rtl {
   direction: rtl;
   border-left: 0;
@@ -101,4 +106,8 @@
 
 .simple-react-notifier .item.rtl.error {
   border-right: 8px solid #ac1f2d;
+}
+
+.simple-react-notifier .item.rtl.warn {
+  border-right: 8px solid #ffb366;
 }
