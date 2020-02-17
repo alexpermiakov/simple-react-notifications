@@ -5,12 +5,22 @@ import NotificationContainer, {
   Config
 } from "./NotificationContainer/NotificationContainer";
 
+type NotifierBase = (cfg?: Config) => number;
+
+interface Notifier extends NotifierBase {
+  info: (message: string) => number;
+  error: (message: string) => number;
+  success: (message: string) => number;
+  configure: (cfg: Config) => void;
+  dismiss: (id?: number) => void;
+}
+
 const cls = "simple-react-notifier";
 
 let globalCfg: Config;
 let id = 0;
 
-const notifier = (cfg?: Config) => {
+const notifier: Notifier = (cfg) => {
   cfg = { ...(globalCfg || {}), ...cfg };
   const { position = "top-right" } = cfg;
   let modalRoot = document.querySelector("." + cls + "." + position);
@@ -38,14 +48,13 @@ const notifier = (cfg?: Config) => {
   return id - 1;
 };
 
-["info", "success", "error", "warn"].forEach(
-  type => (notifier[type] = (message: string) => notifier({ message, type }))
-);
-
-notifier.configure = (cfg: Config) => {
+notifier.info = message => notifier({ message, type: "info" });
+notifier.success = message => notifier({ message, type: "success" });
+notifier.error = message => notifier({ message, type: "error" });
+notifier.warn = message => notifier({ message, type: "warn" });
+notifier.configure = (cfg) => {
   globalCfg = cfg;
 };
-
-notifier.dismiss = (id?: number) => eventManager.remove(id);
+notifier.dismiss = (id) => eventManager.remove(id);
 
 export default notifier;
