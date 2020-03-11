@@ -5,18 +5,18 @@ import NotificationContainer from "./NotificationContainer";
 describe("<NotificationContainer />", () => {
   it("should render correctly with default props", () => {
     const wrapper = shallow(
-      <NotificationContainer message="Your item has been updated." />
+      <NotificationContainer id={1} cleared={jest.fn} message="Your item has been updated."/>
     );
     expect(wrapper).toMatchSnapshot();
   });
 
   it("should render multiple items", () => {
     const wrapper = mount(
-      <NotificationContainer message="Your item has been updated." />
+      <NotificationContainer id={1} cleared={jest.fn} message="Your item has been updated." />
     );
-    wrapper.setProps({ message: "Done! Check your email." });
-    wrapper.setProps({ message: "Dark theme is enabled" });
+    wrapper.setProps({ message: "Done! Check your email.", id:2, cleared:jest.fn });
+    wrapper.setProps({ message: "Dark theme is enabled", id:3, cleared:jest.fn });
     wrapper.update();
-    expect(wrapper.find(".notification-item").length).toEqual(3);
+    expect(wrapper.find(".info").length).toEqual(2);
   });
 });
